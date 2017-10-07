@@ -1,0 +1,26 @@
+.center-parent {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.intro-text__container {
+  max-width: 65%;
+}
+
+.intro-text {
+  font-size: 2em;
+  animation-name: intro-blur;
+  animation-duration: 4s;
+}
+
+@keyframes intro-blur {
+  from {
+    filter: blur(15px);
+  }
+
+  to {
+    filter: blur(0px);
+  }
+}

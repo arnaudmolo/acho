@@ -1,0 +1,16 @@
+.App {
+  text-align: center;
+  width: 100vw;
+  height: 100vh;
+  background-image: url(/images/background.jpg);
+  color: white;
+}
+
+.App-intro {
+  opacity: 0;
+}
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
