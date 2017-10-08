@@ -3,6 +3,7 @@ import 'reset-css'
 import './App.css'
 
 import Intro from './Intro'
+// import Loader from './Loader'
 
 class App extends Component {
   render () {

@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "flubber": "^0.4.0",
     "gsap": "^1.20.3",
     "normalize.css": "^7.0.0",
     "react": "^16.0.0",

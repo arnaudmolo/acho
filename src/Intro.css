@@ -58,11 +58,12 @@
   animation-fill-mode: forwards;
 }
 
-.svg-mask {
-  display: block;
+.intro-loader {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  bottom: 0;
+}
+
+.donut__svg__circle--one {
+  stroke-dasharray: 221;
+  stroke-dashoffset: 221;
 }

@@ -1,27 +1,29 @@
 import React, { Component } from 'react'
 import './Intro.css'
-// import { TweenMax } from 'gsap'
+import { TweenMax, TimelineMax } from 'gsap'
 
 class Intro extends Component {
+
   componentDidMount () {
-    // const blurElement = {
-    //   a: 0
-    // }
-    //
-    // const applyBlur = () => {
-    //   TweenMax.set(this.texts, {
-    //     webkitFilter: 'blur(' + blurElement.a + 'px)',
-    //     filter: 'blur(' + blurElement.a + 'px)'})
-    // }
-    //
-    // TweenMax.to(blurElement, 10, {
-    //   a: 20, onUpdate: applyBlur
-    // })
-    //
-    // console.log(TweenMax.to(this.texts, '2', {
-    //   filter: 'blur(15px)',
-    //   delay: 3
-    // }))
+    this.timeline = new TimelineMax({
+      paused: true
+    })
+    this.timeline.to(this.progress, 3, {
+      'stroke-dashoffset': 80,
+      onComplete: () => {
+        alert('lol')
+      }
+    })
+  }
+
+  launchProgress = e => {
+    this.timeline.timeScale(1)
+    this.timeline.play()
+  }
+
+  stopProgress = e => {
+    this.timeline.timeScale(2)
+    this.timeline.reverse()
   }
 
   render (props = this.props) {
@@ -30,6 +32,12 @@ class Intro extends Component {
       <div className='center-parent'>
         <div className='intro-text__container'>
           <p ref={p => { this.texts = p }} className='intro-text'>{intro.map(word => <span key={word}>{word} </span>)}</p>
+        </div>
+        <div className='intro-loader'>
+          <svg height='170' width='170'>
+            <circle cx='85' cy='85' stroke='white' opacity='0.3' r='22.5' strokeWidth='1' fill='transparent' />
+            <circle className='donut__svg__circle--one' onMouseOver={this.launchProgress} onMouseLeave={this.stopProgress} ref={progress => { this.progress = progress }} cx='85' cy='85' stroke='white' opacity='1' r='22.5' strokeWidth='1' fill='transparent' />
+          </svg>
         </div>
       </div>
     )
