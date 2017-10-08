@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import './Intro.css'
-import { TweenMax } from 'gsap'
-
-console.log(TweenMax)
+// import { TweenMax } from 'gsap'
 
 class Intro extends Component {
   componentDidMount () {
