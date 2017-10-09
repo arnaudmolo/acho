@@ -1,0 +1,41 @@
+.loader-text__container {
+  max-width: 880px;
+  width: 276px;
+  height: 54px;
+  position: relative;
+  overflow: hidden;
+}
+
+.loader__animation-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: translateX(-276px);
+  background-image: url(/images/intro-loader-background.jpg);
+  mix-blend-mode: exclusion;
+}
+
+.loader-text {
+  font-size: 1em;
+  position: absolute;
+  z-index: 2;
+}
+
+.loader-text__white {
+  color: white;
+  mix-blend-mode: difference;
+}
+
+.loader-text__black {
+  color: black;
+}
+
+.loader-bar {
+  position: absolute;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  background: white;
+}

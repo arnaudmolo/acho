@@ -1,33 +1,37 @@
-import React, { Component } from 'react'
-import { interpolate } from 'flubber'
-import { TimelineMax } from 'gsap'
+import React from 'react'
+import GSComponent from './GSComponent'
+// import { TimelineMax } from 'gsap'
+import './Loader.css'
 
-const A = 'M234.5,288.9h-66.6l-15,57.7H99.1L174.7,80h53.4l75.6,266.5h-54L234.5,288.9z M178.5,248.2h45.4l-22.1-84.6h-1.1 L178.5,248.2z'
-const R = 'M167.9,239.6v106.9h-51.6V80.2h79.8c26.5,0,47.3,6.9,62.5,20.7c15.2,13.8,22.8,33,22.8,57.7 c0,13.8-3.2,25.7-9.6,35.9c-6.4,10.1-15.7,18.2-27.7,24.2c13.9,4.6,23.9,12.3,30,23.1c6.1,10.7,9.2,24.2,9.2,40.3v19.4 c0,7.4,0.9,15.3,2.6,23.4c1.7,8.2,4.8,14.2,9.2,17.9v3.8h-53.4c-4.3-3.9-7-10.3-8.1-19.1c-1.2-8.8-1.7-17.7-1.7-26.5v-18.7 c0-13.5-2.8-24-8.4-31.5c-5.6-7.4-13.7-11.2-24.2-11.2H167.9z M167.9,199.4h27.8c11.1,0,19.6-3.3,25.4-10 c5.8-6.6,8.7-16.1,8.7-28.3c0-12.4-2.9-22.3-8.6-29.7c-5.7-7.3-14.1-11-25.1-11h-28.2V199.4z'
+import CustomEase from 'gsap/CustomEase'
 
-const interpolator = interpolate(A, R)
-
-class Loader extends Component {
+class Loader extends GSComponent {
   componentDidMount () {
-    this.timeline = new TimelineMax({
-      paused: false
+    this.timeline.to(this.container, 1, {
+      css: {
+        x: 0
+      },
+      delay: 1,
+      ease: window.Power2.easeOut
     })
-    this.timeline.to(this.shape, 3, {
-      onUpdate: () => this.shape.setAttribute('d', interpolator(this.timeline.progress()))
+    .to(this.bar, 4, {
+      css: {
+        x: 276
+      },
+      ease: CustomEase.create('custom', 'M0,0,C0.126,0.382,0.062,0.49,0.22,0.638,0.269,0.684,0.356,0.679,0.42,0.726,0.482,0.772,0.427,0.875,0.494,0.922,0.535,0.95,0.617,0.922,0.668,0.952,0.767,1.01,0.941,1,1,1')
     })
   }
 
   render (props = this.props) {
     return (
-      <svg version='1.1' x='0px' y='0px' viewBox='0 0 605.3 627.7'>
-        <g>
-          <path ref={shape => { this.shape = shape }}
-            d='M234.5,288.9h-66.6l-15,57.7H99.1L174.7,80h53.4l75.6,266.5h-54L234.5,288.9z M178.5,248.2h45.4l-22.1-84.6h-1.1 L178.5,248.2z'
-            fill='white'
-          />
-        </g>
-      </svg>
-
+      <div className='center-parent'>
+        <div className='loader-text__container'>
+          <div ref={e => { this.container = e }} className='loader__animation-container'>
+            <p className='loader-text loader-text__white'>Loading projects in progress...</p>
+            <div ref={p => { this.bar = p }} className='loader-bar' />
+          </div>
+        </div>
+      </div>
     )
   }
 }
