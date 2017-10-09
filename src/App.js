@@ -15,7 +15,7 @@ import Loader from './Loader'
 const Projects = (props) => (
   <Bundle load={() => Promise.all([
       import('./Projects'),
-      new Promise(resolve => setTimeout(resolve, 100))
+      new Promise(resolve => setTimeout(resolve, 1000))
     ]).then(([mod]) => mod)
   }>
     {(Projects) => {
