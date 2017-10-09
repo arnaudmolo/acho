@@ -10,33 +10,22 @@ class TweenComponent extends Component {
 }
 
 class Loader extends TweenComponent {
-  componentDidMount () {
-  }
-
-  launchProgress = e => {
-    this.timeline.timeScale(1)
-    this.timeline.to(this.progress, 2.5, {
+  launchProgress = e => this.timeline.timeScale(1)
+    .to(this.progress, 2.5, {
       'stroke-dashoffset': 80,
       onComplete: () => {
         // alert('lol')
       }
     }).play()
-  }
 
-  skew = e => {
-    const cursorX = e.pageX - this.rect.x
-    const cursorY = e.pageY - this.rect.y
-    this.timeline.to(
-      this.group, 1, {
-        x: scale(cursorX),
-        y: scale(cursorY)
-      }, 0).play()
-  }
+  skew = e => this.timeline.to(
+    this.group, 1, {
+      x: scale(e.pageX - this.rect.x),
+      y: scale(e.pageY - this.rect.y)
+    }, 0
+  ).play()
 
-  stopProgress = e => {
-    this.timeline.timeScale(3)
-    this.timeline.reverse()
-  }
+  stopProgress = e => this.timeline.timeScale(3).reverse()
 
   render () {
     return (
