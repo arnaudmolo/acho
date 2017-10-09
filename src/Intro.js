@@ -1,23 +1,36 @@
 import React, { Component } from 'react'
 import './Intro.css'
-import { TweenMax, TimelineMax } from 'gsap'
+import { TimelineMax } from 'gsap'
+import { scaleLinear } from 'd3'
 
-class Loader extends Component {
+const scale = scaleLinear().range([-90 + 22.5, 90 - 22.5]).domain([0, 180])
+
+class TweenComponent extends Component {
+  timeline = new TimelineMax()
+}
+
+class Loader extends TweenComponent {
   componentDidMount () {
-    this.timeline = new TimelineMax({
-      paused: true
-    })
-    this.timeline.to(this.progress, 2.5, {
-      'stroke-dashoffset': 80,
-      onComplete: () => {
-        alert('lol')
-      }
-    })
   }
 
   launchProgress = e => {
     this.timeline.timeScale(1)
-    this.timeline.play()
+    this.timeline.to(this.progress, 2.5, {
+      'stroke-dashoffset': 80,
+      onComplete: () => {
+        // alert('lol')
+      }
+    }).play()
+  }
+
+  skew = e => {
+    const cursorX = e.pageX - this.rect.x
+    const cursorY = e.pageY - this.rect.y
+    this.timeline.to(
+      this.group, 1, {
+        x: scale(cursorX),
+        y: scale(cursorY)
+      }, 0).play()
   }
 
   stopProgress = e => {
@@ -28,9 +41,16 @@ class Loader extends Component {
   render () {
     return (
       <div className='intro-loader'>
-        <svg height='170' width='170'>
-          <circle cx='85' cy='85' stroke='white' opacity='0.3' r='22.5' strokeWidth='1' fill='transparent' />
-          <circle className='donut__svg__circle--one' onMouseOver={this.launchProgress} onMouseLeave={this.stopProgress} ref={progress => { this.progress = progress }} cx='85' cy='85' stroke='white' opacity='1' r='22.5' strokeWidth='1' fill='transparent' />
+        <svg height='180' width='180'>
+          <g onMouseMove={this.skew} onMouseOver={this.launchProgress} onMouseLeave={this.stopProgress} transform-origin='90 90' ref={e => {
+              this.group = e
+              this.rect = e.getBoundingClientRect()
+            }}>
+            <circle ref={e => { this.skewEl = e }} cx='90' cy='90' opacity='0.3' r='90' strokeWidth='1' fill='transparent' />
+            <circle cx='90' cy='90' stroke='white' opacity='0.3' r='22.5' strokeWidth='1' fill='transparent' />
+            <circle cx='90' cy='90' stroke='white' r='0.5' fill='white' />
+            <circle className='donut__svg__circle--one' ref={progress => { this.progress = progress }} cx='90' cy='90' stroke='white' opacity='1' r='22.5' strokeWidth='1' fill='transparent' />
+          </g>
         </svg>
       </div>
     )
