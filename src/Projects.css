@@ -9,6 +9,11 @@
   font-size: 3em;
 }
 
+.slide__container {
+  overflow: hidden;
+  padding-bottom: 5px;
+}
+
 .project__titraille {
   position: absolute;
   width: 100%;
@@ -27,13 +32,16 @@
 
 .project__cover {
   width: 605px;
-  height: 280px;
+  height: 200px;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
   box-shadow: 0 0 35px 30px rgba(0, 0, 0, 0.4);
+  opacity: 0;
 }
+
+.project__image--preload
 
 .project__image {
   width: 605px;
