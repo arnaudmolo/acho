@@ -7,6 +7,8 @@
     "flubber": "^0.4.0",
     "gsap": "^1.20.3",
     "normalize.css": "^7.0.0",
+    "prismic-javascript": "^1.4.0",
+    "prismic.io": "^3.6.1",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "react-router-dom": "^4.2.2",
