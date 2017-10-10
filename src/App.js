@@ -9,9 +9,9 @@ import 'reset-css'
 import './App.css'
 
 import Intro from './Intro'
-import Bundle from './Bundle'
 import Loader from './Loader'
 
+// import Bundle from './Bundle'
 // const Projects = (props) => (
 //   <Bundle load={() => Promise.all([
 //       import('./Projects'),

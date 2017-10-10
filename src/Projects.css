@@ -1,0 +1,41 @@
+.project {
+  position: relative;
+  width: 605px;
+  margin: 0 auto;
+  opacity: 0.5;
+}
+
+.project__title {
+  font-size: 3em;
+}
+
+.project__titraille {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-flow: column;
+}
+
+.project__services {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.project__cover {
+  width: 605px;
+  height: 280px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  box-shadow: 0 0 35px 30px rgba(0, 0, 0, 0.4);
+}
+
+.project__image {
+  width: 605px;
+  height: 280px;
+}

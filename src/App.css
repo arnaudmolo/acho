@@ -4,6 +4,7 @@
   height: 100vh;
   background-image: url(/images/background.jpg);
   color: white;
+  overflow: hidden;
 }
 
 .App-intro {
