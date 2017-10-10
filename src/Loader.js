@@ -1,11 +1,17 @@
 import React from 'react'
 import GSComponent from './GSComponent'
-// import { TimelineMax } from 'gsap'
+import connectLoader from './redux/loader'
 import './Loader.css'
 
-import CustomEase from 'gsap/CustomEase'
+// import CustomEase from 'gsap/CustomEase'
 
 class Loader extends GSComponent {
+  constructor (props) {
+    super(props)
+    this.state = {
+      progress: 0
+    }
+  }
   componentDidMount () {
     this.timeline.to(this.container, 1, {
       css: {
@@ -14,22 +20,47 @@ class Loader extends GSComponent {
       delay: 1,
       ease: window.Power2.easeOut
     })
-    .to(this.bar, 4, {
+    this.timeline.to(this.bar, 1, {
       css: {
-        x: 276
+        x: 15
       },
-      ease: CustomEase.create('custom', 'M0,0,C0.126,0.382,0.062,0.49,0.22,0.638,0.269,0.684,0.356,0.679,0.42,0.726,0.482,0.772,0.427,0.875,0.494,0.922,0.535,0.95,0.617,0.922,0.668,0.952,0.767,1.01,0.941,1,1,1')
+      delay: 1
     })
-    .to(this.bar, 0, {alpha: 0})
-    .to(this.container, 1, {
+  }
+
+  componentDidUpdate (prevProps, prevState) {
+    this.timeline.to(this.bar, 1, {
       css: {
-        width: 605,
-        height: 280
+        x: 276 / 6 * this.props.loader.imagesLoaded.length
       },
-      ease: window.Power2.easeOut
+      onComplete: () => {
+        if (this.props.loader.imagesLoaded.length === 6) {
+          this.endAnimation()
+        }
+      }
     })
-    .to(this.laodingText, 0.66, {alpha: 0, y: -25}, '-=0.5')
-    .to(this.loadedText, 2, {alpha: 1, y: 0}, '-=0.7')
+  }
+
+  endAnimation () {
+    this.timeline
+      .to(this.bar, 0, {alpha: 0})
+      .to(this.container, 1.5, {
+        css: {
+          width: 605,
+          height: 280
+        },
+        ease: window.Power2.easeOut
+      })
+      .to(this.laodingText, 0.66, {alpha: 0, y: -25}, '-=0.5')
+      .to(this.loadedText, 2, {
+        alpha: 1,
+        y: 0,
+        onComplete: () => this.onAnimationEnd()
+      }, '-=0.7')
+  }
+
+  onAnimationEnd () {
+    this.props.history.push('/projects')
   }
 
   render (props = this.props) {
@@ -47,4 +78,4 @@ class Loader extends GSComponent {
   }
 }
 
-export default Loader
+export default connectLoader(Loader)

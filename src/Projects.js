@@ -1,7 +1,7 @@
 import React from 'react'
-import Prismic from 'prismic-javascript'
 import cx from 'classnames'
 import GSComponent from './GSComponent'
+import connectToProjects from './redux/projects'
 
 import './Projects.css'
 // import Project from './Project'
@@ -26,7 +26,6 @@ class SlideInOut extends GSComponent {
 
 class Cover extends GSComponent {
   componentDidMount () {
-    console.log(this.props)
     if (this.props.visible) {
       this.fadeIn(this.props)
     }
@@ -82,32 +81,12 @@ class Project extends GSComponent {
 }
 
 class Projects extends GSComponent {
-  constructor (props) {
-    super(props)
-    this.state = {
-      projects: []
-    }
-  }
-
-  componentDidMount () {
-    this.load(this.props)
-  }
-
-  load (props) {
-    props.api.query(
-      Prismic.Predicates.at('document.type', 'project')
-    ).then(response => {
-      this.setState({
-        projects: response.results
-      })
-    })
-  }
-
   render (props = this.props) {
     let selected = 2
+    console.log(props)
     return (
       <div className='projects'>
-        {this.state.projects.map((project, index) =>
+        {props.projects.map((project, index) =>
           <div key={project.id} className={cx({
             'projects-project': true,
             'projects-project__selected': selected === index
@@ -120,4 +99,4 @@ class Projects extends GSComponent {
   }
 }
 
-export default Projects
+export default connectToProjects(Projects)
