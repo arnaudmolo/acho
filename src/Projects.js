@@ -1,6 +1,5 @@
 import React from 'react'
-import cx from 'classnames'
-// import { Transition } from 'react-transition-group'
+import { Transition, TransitionGroup } from 'react-transition-group'
 import GSComponent from './GSComponent'
 import connectToProjects from './redux/projects'
 
@@ -8,12 +7,20 @@ import './Projects.css'
 // import Project from './Project'
 
 class SlideInOut extends GSComponent {
-  componentDidMount () {
+  fadeIn () {
     this.timeline
       .fromTo(this.$el, 0.66, {
         yPercent: -100
       }, {
         yPercent: 0
+      })
+  }
+  fadeOut () {
+    this.timeline
+      .fromTo(this.$el, 0.66, {
+        yPercent: 0
+      }, {
+        yPercent: 100
       })
   }
   render () {
@@ -26,21 +33,17 @@ class SlideInOut extends GSComponent {
 }
 
 class Cover extends GSComponent {
-  componentDidMount () {
-    if (this.props.visible) {
-      this.fadeIn(this.props)
-    }
-  }
-  fadeOut (props) {
-
-  }
-  fadeIn (props) {
-    this.timeline.fromTo(this.$cover, 1, {
+  fadeOut () {
+    return this.timeline.to(this.$cover, 1, {
       alpha: 0,
-      height: 0
-    }, {
+      height: 0,
+      y: 200
+    })
+  }
+  fadeIn () {
+    return this.timeline.to(this.$cover, 1.5, {
       alpha: 1,
-      height: 280
+      height: 200
     })
   }
   render (props = this.props) {
@@ -53,48 +56,92 @@ class Cover extends GSComponent {
 }
 
 class Project extends GSComponent {
+  onEnter () {
+    this.$title.fadeIn()
+    this.$chapo.fadeIn()
+    if (this.props.showCover) {
+      this.cover.fadeIn()
+    }
+  }
+
+  onEnd (that) {
+    return function (node, done) {
+      console.log('??????????,', this.enter, this.exit, this.in, this.appear)
+      if (this.in) {
+        // done()
+      } else {
+        that.$title.fadeOut()
+        that.$chapo.fadeOut()
+        that.cover.fadeOut().addCallback(done)
+      }
+    }
+  }
+
   render (props = this.props) {
     const title = props.data.title[0].text
+    // console.log(props, props.enter, props.exit, props.in)
     return (
-      <div ref={e => { this.$project = e }} className='project'>
-        <div className='project__titraille'>
-          <SlideInOut>
-            <p className='project__chapo'>project</p>
-          </SlideInOut>
-          <SlideInOut>
-            <h1 ref={e => { this.$title = e }} className='project__title'>{title}</h1>
-          </SlideInOut>
-          {props.data.services.length > 1
-            ? <div>
-              <h4>Services</h4>
-              <ul>
-                {props.data.services.map(({service}) =>
-                  <li key={service[0].text}><p>{service[0].text}</p></li>
-                )}
-              </ul>
+      <Transition {...props} addEndListener={this.onEnd(this)} mountOnEnter onEntered={this.onEnter.bind(this)}>
+        {state =>
+          <div className='projects-project' id={console.log(state)}>
+            <div ref={e => { this.$project = e }} className='project'>
+              <div className='project__titraille'>
+                <SlideInOut ref={e => { this.$chapo = e }}>
+                  <p className='project__chapo'>project</p>
+                </SlideInOut>
+                <SlideInOut ref={e => { this.$title = e }}>
+                  <h1 className='project__title'>{title}</h1>
+                </SlideInOut>
+                {props.data.services.length > 1
+                  ? <div>
+                    <h4>Services</h4>
+                    <ul>
+                      {props.data.services.map(({service}) =>
+                        <li key={service[0].text}><p>{service[0].text}</p></li>
+                      )}
+                    </ul>
+                  </div>
+                : null}
+              </div>
+              <Cover ref={e => { this.cover = e }} src={props.data.cover.url} animationState={state} />
             </div>
-          : null}
-        </div>
-        <Cover src={props.data.cover.url} visible={props.showCover} />
-      </div>
+          </div>
+        }
+      </Transition>
     )
   }
 }
 
 class Projects extends GSComponent {
+  constructor (props) {
+    super(props)
+    this.state = {
+      animate: false
+    }
+  }
+  onClick () {
+    this.setState({
+      animate: true
+    }, () => {
+      this.props.next()
+    })
+  }
+  componentDidUpdate (prevProps, prevState) {
+    if (this.state.animate) {
+      this.setState({animate: false})
+    }
+  }
   render (props = this.props) {
     let selected = 2
-    console.log(props)
     return (
-      <div className='projects'>
-        {props.projects.map((project, index) =>
-          <div key={project.id} className={cx({
-            'projects-project': true,
-            'projects-project__selected': selected === index
-          })}>
-            <Project data={project.data} showCover={selected === index} />
-          </div>
-        )}
+      <div className='projects' ref={e => { this.$project = e }} onClick={this.onClick.bind(this)}>
+        <TransitionGroup appear exit enter>
+          {
+            props.projects.map((project, index) =>
+              <Project key={index} data={project.data} showCover={selected === index} />
+            )
+          }
+        </TransitionGroup>
       </div>
     )
   }

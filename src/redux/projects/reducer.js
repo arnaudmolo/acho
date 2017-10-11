@@ -1,4 +1,4 @@
-import { REQUEST, SUCCESS } from './actions'
+import { REQUEST, SUCCESS, NEXT } from './actions'
 
 export default (state = {
   projects: []
@@ -10,6 +10,10 @@ export default (state = {
       }
     case REQUEST:
       return state
+    case NEXT:
+      return {
+        projects: [...state.projects.slice(1), state.projects[0]]
+      }
     default:
       return state
   }

@@ -1,12 +1,21 @@
 .project {
   position: relative;
   width: 605px;
+  height: 200px;
   margin: 0 auto;
+  transform: translateY(-80px);
+}
+.projects-project {
   opacity: 0.5;
+}
+.projects-project:nth-child(3) {
+  opacity: 1;
 }
 
 .project__title {
   font-size: 3em;
+  font-family: Roboto;
+  text-transform: uppercase;
 }
 
 .slide__container {
@@ -22,6 +31,7 @@
   align-items: center;
   justify-content: center;
   flex-flow: column;
+  z-index: 2;
 }
 
 .project__services {
@@ -32,18 +42,25 @@
 
 .project__cover {
   width: 605px;
-  height: 200px;
+  height: 0px;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
   box-shadow: 0 0 35px 30px rgba(0, 0, 0, 0.4);
   opacity: 0;
+  z-index: 1;
 }
-
-.project__image--preload
 
 .project__image {
   width: 605px;
   height: 280px;
+}
+
+.projects-project:nth-child(1), .projects-project:nth-child(5) {
+  transform: scale(0.6);
+}
+
+.projects-project:nth-child(2), .projects-project:nth-child(4) {
+  transform: scale(0.8);
 }
