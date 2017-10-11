@@ -1,5 +1,6 @@
 import React from 'react'
 import cx from 'classnames'
+// import { Transition } from 'react-transition-group'
 import GSComponent from './GSComponent'
 import connectToProjects from './redux/projects'
 
