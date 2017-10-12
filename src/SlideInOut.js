@@ -1,10 +1,14 @@
 import React from 'react'
-import GSComponent from './GSComponent'
+// import GSComponent from './GSComponent'
+import { TweenMax } from 'gsap'
 import './SlideInOut.css'
 
-class SlideInOut extends GSComponent {
+class SlideInOut extends React.Component {
+  componentDidMount () {
+    this.fadeIn()
+  }
   fadeIn () {
-    return this.timeline
+    return TweenMax
       .fromTo(this.$el, 0.66, {
         yPercent: -100,
         alpha: 0
@@ -14,7 +18,7 @@ class SlideInOut extends GSComponent {
       })
   }
   fadeOut () {
-    return this.timeline
+    return TweenMax
       .fromTo(this.$el, 0.66, {
         yPercent: 0,
         alpha: 1
@@ -22,9 +26,6 @@ class SlideInOut extends GSComponent {
         yPercent: 100,
         alpha: 0
       })
-  }
-  componentWillUpdate (nextProps, nextState) {
-    this.block = false
   }
   render () {
     return (
