@@ -1,4 +1,4 @@
-import { REQUEST, SUCCESS, NEXT } from './actions'
+import { REQUEST, SUCCESS, NEXT, GO_TO } from './actions'
 
 export default (state = {
   projects: [],
@@ -12,6 +12,11 @@ export default (state = {
       }
     case REQUEST:
       return state
+    case GO_TO:
+      return {
+        ...state,
+        selected: action.payload
+      }
     case NEXT:
       if (state.selected === state.projects.length - 1) {
         return {

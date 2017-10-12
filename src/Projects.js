@@ -1,5 +1,5 @@
 import React from 'react'
-import TransitionGroup from 'react-transition-group/TransitionGroup'
+import cx from 'classnames'
 import GSComponent from './GSComponent'
 import connectToProjects from './redux/projects'
 import SlideInOut from './SlideInOut'
@@ -29,12 +29,22 @@ class Cover extends GSComponent {
   }
   render (props = this.props) {
     return (
-      <div ref={e => { this.$cover = e }} className='project__cover'>
-        <img alt='cover' className='project__image' src={props.src} />
+      <div ref={e => { this.$cover = e }} className='project--cover'>
+        <img alt='cover' className='project--image' src={props.src} />
       </div>
     )
   }
 }
+//
+// class CoverFull extends React.Component {
+//   render (props = this.props) {
+//     return (
+//       <div className='project--cover__full'>
+//         <img alt='cover' className='project--image__full' src={props.src} />
+//       </div>
+//     )
+//   }
+// }
 
 class Project extends GSComponent {
   constructor (props) {
@@ -68,28 +78,47 @@ class Project extends GSComponent {
       this.cover.fadeOut()
     ])
   }
-  render (props = this.props) {
+
+  renderFull () {
     const title = this.state.data.title[0].text
     return (
-      <div className='projects-project'>
-        <div ref={e => { this.$project = e }} className='project'>
-          <div className='project__titraille'>
+      <div className='projects-project__full'>
+        <div className='project__full'>
+          <div className='project--titraille project--titraille__full'>
             <SlideInOut ref={e => { this.$chapo = e }}>
-              <p className='project__chapo'>project</p>
+              <p className='project--chapo project--chapo__full'>project</p>
             </SlideInOut>
             <SlideInOut ref={e => { this.$title = e }}>
-              <h1 className='project__title'>{title}</h1>
+              <h1 className='project--title'>{title}</h1>
             </SlideInOut>
-            {this.state.data.services.length > 1
-              ? <div>
-                <h4>Services</h4>
-                <ul>
-                  {this.state.data.services.map(({service}) =>
-                    <li key={service[0].text}><p>{service[0].text}</p></li>
-                  )}
-                </ul>
-              </div>
-            : null}
+          </div>
+          <Cover ref={e => { this.cover = e }} src={this.state.data.cover.url} />
+        </div>
+      </div>
+    )
+  }
+
+  render (props = this.props) {
+    // if (this.props.fullmode) {
+    //   if (this.props.showCover) {
+    //     return this.renderFull(props)
+    //   }
+    //   return null
+    // }
+    const title = this.state.data.title[0].text
+    return (
+      <div className={cx({
+        'projects-project': true,
+        'projects-project__selected': this.props.showCover
+      })}>
+        <div ref={e => { this.$project = e }} className='project'>
+          <div className='project--titraille'>
+            <SlideInOut ref={e => { this.$chapo = e }}>
+              <p className='project--chapo'>project</p>
+            </SlideInOut>
+            <SlideInOut ref={e => { this.$title = e }}>
+              <h1 className='project--title'>{title}</h1>
+            </SlideInOut>
           </div>
           <Cover ref={e => { this.cover = e }} src={this.state.data.cover.url} visible={this.props.showCover} />
         </div>
@@ -137,7 +166,8 @@ class Projects extends GSComponent {
     super(props)
     this.selected = 2
     this.state = {
-      animate: false
+      animate: false,
+      fullmode: true
     }
   }
   onClick () {
@@ -152,15 +182,22 @@ class Projects extends GSComponent {
     }, 1100)
   }
   render (props = this.props) {
+    console.log(this.state.fullmode)
     return (
       <div className='projects' onClick={this.onClick.bind(this)}>
-        <Navigation />
+        <Navigation onMouseOver={e => this.setState({
+          fullmode: false
+        })}
+          onMouseLeave={e => this.setState({
+            fullmode: true
+          })}
+        />
         {this.props.projects.length && <Background src={this.props.projects[this.selected].data.cover.url} />}
-        <TransitionGroup key='app'>
+        <div className='project__container'>
           {props.projects.map((project, index) =>
-            <Project key={index} data={project.data} id={project.id} showCover={this.selected === index} />
+            <Project key={index} data={project.data} id={project.id} showCover={this.selected === index} fullmode={this.state.fullmode} />
           )}
-        </TransitionGroup>
+        </div>
       </div>
     )
   }

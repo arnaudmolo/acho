@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { next } from './actions'
+import { next, goTo } from './actions'
 import { createSelector } from 'reselect'
 
 const blockAtCreator = n => {
@@ -36,4 +36,4 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-export default connect(mapStateToProps, { next })
+export default connect(mapStateToProps, { next, goTo })

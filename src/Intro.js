@@ -7,7 +7,6 @@ const scale = scaleLinear().range([-90 + 22.5, 90 - 22.5]).domain([0, 180])
 
 class Loader extends GSComponent {
   launchProgress = e => {
-    console.log('??4')
     return this.timeline.timeScale(1)
       .to(this.progress, 2.5, {
         'stroke-dashoffset': 80,
@@ -31,7 +30,11 @@ class Loader extends GSComponent {
     return (
       <div className='intro-loader'>
         <svg height='180' width='180'>
-          <g className='intro-loader__container' onMouseMove={this.skew} onMouseOver={this.launchProgress} onMouseLeave={this.stopProgress} transform-origin='90 90' ref={e => {
+          <g className='intro-loader__container'
+            onMouseMove={this.skew}
+            onMouseOver={this.launchProgress}
+            onMouseLeave={this.stopProgress}
+            transform-origin='90 90' ref={e => {
               this.group = e
               if (e) {
                 this.rect = e.getBoundingClientRect()
