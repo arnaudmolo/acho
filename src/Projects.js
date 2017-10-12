@@ -4,6 +4,7 @@ import GSComponent from './GSComponent'
 import connectToProjects from './redux/projects'
 import SlideInOut from './SlideInOut'
 import { TweenMax } from 'gsap'
+import Navigation from './Navigation'
 
 import './Projects.css'
 
@@ -152,7 +153,8 @@ class Projects extends GSComponent {
   }
   render (props = this.props) {
     return (
-      <div className='projects' ref={e => { this.$project = e }} onClick={this.onClick.bind(this)}>
+      <div className='projects' onClick={this.onClick.bind(this)}>
+        <Navigation />
         {this.props.projects.length && <Background src={this.props.projects[this.selected].data.cover.url} />}
         <TransitionGroup key='app'>
           {props.projects.map((project, index) =>
