@@ -10,6 +10,7 @@
     "normalize.css": "^7.0.0",
     "prismic-javascript": "^1.4.0",
     "prismic.io": "^3.6.1",
+    "ramda": "^0.25.0",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "react-motion": "^0.5.2",

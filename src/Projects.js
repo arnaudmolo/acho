@@ -2,38 +2,10 @@ import React from 'react'
 import TransitionGroup from 'react-transition-group/TransitionGroup'
 import GSComponent from './GSComponent'
 import connectToProjects from './redux/projects'
+import SlideInOut from './SlideInOut'
 
 import './Projects.css'
 // import Project from './Project'
-
-class SlideInOut extends GSComponent {
-  fadeIn () {
-    this.timeline
-      .fromTo(this.$el, 0.66, {
-        yPercent: -100
-      }, {
-        yPercent: 0
-      })
-  }
-  fadeOut () {
-    this.timeline
-      .fromTo(this.$el, 0.66, {
-        yPercent: 0
-      }, {
-        yPercent: 100
-      })
-  }
-  componentWillUpdate (nextProps, nextState) {
-    this.block = false
-  }
-  render () {
-    return (
-      <div className='slide__container'>
-        <div className='slide__content' ref={e => { this.$el = e }}>{this.props.children}</div>
-      </div>
-    )
-  }
-}
 
 class Cover extends GSComponent {
   fadeOut () {
@@ -58,38 +30,23 @@ class Cover extends GSComponent {
   }
 }
 
-class Project extends GSComponent {
+class Project extends React.Component {
   shouldComponentUpdate (nextProps, nextState) {
     return nextProps.animating
   }
-  componentDidMount () {
-    console.log('componentDidMount')
-  }
-  // componentWillAppear (callback) {
-  //   console.log('componentWillAppear')
-  // }
-  // componentDidAppear () {
-  //   console.log('componentDidAppear')
-  // }
   componentWillEnter (callback) {
     this.onEnter().addCallback(callback)
   }
-  // componentDidEnter () {
-  //   console.log('componentDidEnter')
-  // }
   componentWillLeave (callback) {
     this.onExit().addCallback(callback)
   }
-  // componentDidLeave () {
-  //   console.log('componentDidLeave')
-  // }
   onEnter () {
-    this.$title.fadeIn()
+    const timeline = this.$title.fadeIn()
     this.$chapo.fadeIn()
     if (this.props.showCover) {
       return this.cover.fadeIn()
     }
-    return this.timeline
+    return timeline
   }
   onExit () {
     this.$title.fadeOut()
@@ -126,28 +83,67 @@ class Project extends GSComponent {
   }
 }
 
+class Background extends GSComponent {
+  constructor (props) {
+    super(props)
+    console.log(props)
+    this.state = {
+      background: props.src
+    }
+  }
+  componentDidUpdate (prevProps, prevState) {
+    if (this.props.src !== prevProps.src) {
+      this.hide(this.props)
+    }
+    if (this.state.background !== prevState.background) {
+      this.show(this.props)
+    }
+  }
+  hide (props) {
+    this.timeline.to(this.$background, 1, {
+      alpha: 0,
+      onComplete: () =>
+        this.setState({
+          background: props.src
+        })
+    })
+  }
+  show (props) {
+    this.timeline.to(this.$background, 1, {
+      alpha: 0.3
+    })
+  }
+  render () {
+    return <div ref={e => { this.$background = e }} className='project__background-container' style={{backgroundImage: `url(${this.state.background})`}} />
+  }
+}
+
 class Projects extends GSComponent {
   constructor (props) {
     super(props)
+    this.selected = 2
     this.state = {
       animate: false
     }
   }
   onClick () {
+    if (this.state.animate) {
+      return
+    }
     this.setState({animate: true}, this.props.next)
     setTimeout(() => {
       this.setState({
         animate: false
       })
-    }, 800)
+    }, 1100)
   }
   render (props = this.props) {
-    let selected = 2
     return (
       <div className='projects' ref={e => { this.$project = e }} onClick={this.onClick.bind(this)}>
+        {this.props.projects.length && <Background src={this.props.projects[this.selected].data.cover.url} />}
         <TransitionGroup key='app'>
           {!this.state.animate && props.projects.map((project, index) =>
-            <Project key={Math.random()} data={project.data} showCover={selected === index} animating={this.state.animate} />
+            <Project key={Math.random()} data={project.data} showCover={this.selected === index} animating={this.state.animate} />
           )}
         </TransitionGroup>
       </div>

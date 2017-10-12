@@ -18,11 +18,6 @@
   text-transform: uppercase;
 }
 
-.slide__container {
-  overflow: hidden;
-  /*padding-bottom: 5px;*/
-}
-
 .project__titraille {
   position: absolute;
   width: 100%;
@@ -63,4 +58,18 @@
 
 .projects-project:nth-child(2), .projects-project:nth-child(4) {
   transform: scale(0.8);
+}
+.project__background-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  background-size: cover;
+  opacity: 0.3;
+}
+.projects {
+  position: relative;
+  z-index: 1;
 }
