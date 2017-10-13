@@ -116,6 +116,12 @@ class Projects extends GSComponent {
       fullmode: false
     }
   }
+  offFull () {
+    this.setState({fullmode: false})
+  }
+  onFull () {
+    this.setState({fullmode: true})
+  }
   onClick () {
     if (this.state.animate) {
       return
@@ -131,8 +137,8 @@ class Projects extends GSComponent {
     return (
       <div className='projects' onClick={this.onClick.bind(this)}>
         <Navigation
-          onMouseOver={e => this.setState({fullmode: false})}
-          onMouseLeave={e => this.setState({fullmode: true})} />
+          onMouseOver={this.offFull.bind(this)}
+          onMouseLeave={this.onFull.bind(this)} />
         {this.props.projects.length &&
           <Background
             src={this.props.projects[this.selected].data.cover.url} />}
