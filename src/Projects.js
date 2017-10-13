@@ -29,22 +29,12 @@ class Cover extends GSComponent {
   }
   render (props = this.props) {
     return (
-      <div ref={e => { this.$cover = e }} className='project--cover'>
+      <div ref={e => { this.$cover = e }} className='project--cover project--cover__small'>
         <img alt='cover' className='project--image' src={props.src} />
       </div>
     )
   }
 }
-//
-// class CoverFull extends React.Component {
-//   render (props = this.props) {
-//     return (
-//       <div className='project--cover__full'>
-//         <img alt='cover' className='project--image__full' src={props.src} />
-//       </div>
-//     )
-//   }
-// }
 
 class Project extends GSComponent {
   constructor (props) {
@@ -78,47 +68,31 @@ class Project extends GSComponent {
       this.cover.fadeOut()
     ])
   }
-
-  renderFull () {
-    const title = this.state.data.title[0].text
-    return (
-      <div className='projects-project__full'>
-        <div className='project__full'>
-          <div className='project--titraille project--titraille__full'>
-            <SlideInOut ref={e => { this.$chapo = e }}>
-              <p className='project--chapo project--chapo__full'>project</p>
-            </SlideInOut>
-            <SlideInOut ref={e => { this.$title = e }}>
-              <h1 className='project--title'>{title}</h1>
-            </SlideInOut>
-          </div>
-          <Cover ref={e => { this.cover = e }} src={this.state.data.cover.url} />
-        </div>
-      </div>
-    )
-  }
-
   render (props = this.props) {
-    // if (this.props.fullmode) {
-    //   if (this.props.showCover) {
-    //     return this.renderFull(props)
-    //   }
-    //   return null
-    // }
     const title = this.state.data.title[0].text
     return (
       <div className={cx({
         'projects-project': true,
         'projects-project__selected': this.props.showCover
       })}>
-        <div ref={e => { this.$project = e }} className='project'>
+        <div ref={e => { this.$project = e }} className='project project__small'>
           <div className='project--titraille'>
             <SlideInOut ref={e => { this.$chapo = e }}>
-              <p className='project--chapo'>project</p>
+              <p className='project__chapo'>project</p>
             </SlideInOut>
             <SlideInOut ref={e => { this.$title = e }}>
               <h1 className='project--title'>{title}</h1>
             </SlideInOut>
+            {this.state.data.services.length > 1
+              ? <div>
+                <h4>Services</h4>
+                <ul>
+                  {this.state.data.services.map(({service}) =>
+                    <li key={service[0].text}><p>{service[0].text}</p></li>
+                  )}
+                </ul>
+              </div>
+            : null}
           </div>
           <Cover ref={e => { this.cover = e }} src={this.state.data.cover.url} visible={this.props.showCover} />
         </div>
@@ -161,6 +135,65 @@ class Background extends GSComponent {
   }
 }
 
+class FatCover extends React.Component {
+  render (props = this.props) {
+    return (
+      <div ref={e => { this.$cover = e }} className='project--cover project--cover__full'>
+        <img alt='cover' className='project--image__full' src={props.src} />
+      </div>
+    )
+  }
+}
+
+class FatProject extends React.Component {
+  onMove (e) {
+    TweenMax.to(
+      this.$project,
+      0.5,
+      {
+        x: -e.pageX / 100,
+        y: -e.pageY / 100
+      }
+    )
+    TweenMax.to(
+      this.$titraille,
+      0.5,
+      {
+        x: -e.pageX / 100,
+        y: -e.pageY / 100
+      }
+    )
+  }
+  render () {
+    const title = this.props.data.title[0].text
+    return (
+      <div onMouseMove={this.onMove.bind(this)} className='projects-project__full'>
+        <div ref={e => { this.$project = e }} className='project project__full'>
+          <div ref={e => { this.$titraille = e }} className='project--titraille project--titraille__full'>
+            <SlideInOut ref={e => { this.$chapo = e }}>
+              <p className='project__chapo'>project</p>
+            </SlideInOut>
+            <SlideInOut ref={e => { this.$title = e }}>
+              <h1 className='project--title project--title__full'>{title}</h1>
+            </SlideInOut>
+            {this.props.data.services.length > 1
+              ? <div>
+                <h4>Services</h4>
+                <ul>
+                  {this.props.data.services.map(({service}) =>
+                    <li key={service[0].text}><p>{service[0].text}</p></li>
+                  )}
+                </ul>
+              </div>
+            : null}
+          </div>
+          <FatCover ref={e => { this.cover = e }} src={this.props.data.cover.url} visible={this.props.showCover} />
+        </div>
+      </div>
+    )
+  }
+}
+
 class Projects extends GSComponent {
   constructor (props) {
     super(props)
@@ -182,20 +215,14 @@ class Projects extends GSComponent {
     }, 1100)
   }
   render (props = this.props) {
-    console.log(this.state.fullmode)
     return (
       <div className='projects' onClick={this.onClick.bind(this)}>
-        <Navigation onMouseOver={e => this.setState({
-          fullmode: false
-        })}
-          onMouseLeave={e => this.setState({
-            fullmode: true
-          })}
-        />
+        <Navigation />
+        {props.projects.length && <FatProject data={this.props.projects[this.selected].data} />}
         {this.props.projects.length && <Background src={this.props.projects[this.selected].data.cover.url} />}
         <div className='project__container'>
           {props.projects.map((project, index) =>
-            <Project key={index} data={project.data} id={project.id} showCover={this.selected === index} fullmode={this.state.fullmode} />
+            <Project key={index} data={project.data} id={project.id} showCover={this.selected === index} />
           )}
         </div>
       </div>
