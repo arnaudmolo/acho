@@ -36,8 +36,7 @@ class Loader extends GSComponent {
   }
 
   onAnimationEnd () {
-    console.log('onAnimationEnd')
-    this.props.history.push('/projects')
+    // this.props.history.push('/projects')
   }
 
   render (props = this.props) {

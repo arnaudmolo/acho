@@ -214,15 +214,46 @@ class Projects extends GSComponent {
       })
     }, 1100)
   }
+
+  hideFat (e) {
+    const animations = [
+      TweenMax.to(
+        this.$fat.$project, 1, {
+          width: 605,
+          height: 200,
+          y: 60
+        }
+      ),
+      TweenMax.to(
+        this.$fat.cover.$cover, 1, {
+          width: 605,
+          height: 200
+        }
+      )
+    ]
+    this.timeline.add(animations)
+      .to(this.$fat.$project, 0.5, {
+        alpha: 0
+      }).play()
+  }
+
+  showFat () {
+    this.timeline.reverse()
+  }
+
   render (props = this.props) {
     return (
       <div className='projects' onClick={this.onClick.bind(this)}>
-        <Navigation />
-        {props.projects.length && <FatProject data={this.props.projects[this.selected].data} />}
+        <Navigation onMouseOver={this.hideFat.bind(this)} onMouseLeave={this.showFat.bind(this)} />
+        {props.projects.length && <FatProject data={this.props.projects[this.selected].data} ref={e => { this.$fat = e }} />}
         {this.props.projects.length && <Background src={this.props.projects[this.selected].data.cover.url} />}
         <div className='project__container'>
           {props.projects.map((project, index) =>
-            <Project key={index} data={project.data} id={project.id} showCover={this.selected === index} />
+            <Project key={index} data={project.data} id={project.id} showCover={this.selected === index} ref={e => {
+              if (this.selected === index) {
+                this.$selected = e
+              }
+            }} />
           )}
         </div>
       </div>

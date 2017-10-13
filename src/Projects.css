@@ -45,7 +45,7 @@
 .project--titraille__full {
   align-items: left;
   max-width: 450px;
-  transform: translateX(-10%);
+  text-align: left;
 }
 
 .project__services {
@@ -75,8 +75,8 @@
 }
 
 .project--image {
-  width: 605px;
-  height: 280px;
+  /*width: 605px;
+  height: 280px;*/
 }
 
 .projects-project:nth-child(1), .projects-project:nth-child(5) {
