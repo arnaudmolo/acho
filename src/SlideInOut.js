@@ -4,8 +4,23 @@ import { TweenMax } from 'gsap'
 import './SlideInOut.css'
 
 class SlideInOut extends React.Component {
+  constructor (props) {
+    super(props)
+    this.state = props
+  }
   componentDidMount () {
-    this.fadeIn()
+    const props = this.props
+    if (props.visible) {
+      this.fadeIn()
+    }
+  }
+  componentDidUpdate (prevProps, prevState) {
+    if (this.props.visible && !prevProps.visible) {
+      this.fadeIn()
+    }
+    if (!this.props.visible && prevProps.visible) {
+      this.fadeOut()
+    }
   }
   fadeIn () {
     return TweenMax
