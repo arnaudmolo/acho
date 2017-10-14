@@ -3,45 +3,11 @@ import cx from 'classnames'
 import GSComponent from './GSComponent'
 import connectToProjects from './redux/projects'
 import SlideInOut from './SlideInOut'
-import { TweenMax } from 'gsap'
 import Navigation from './Navigation'
 import Background from './ProjectsBackground'
+import Cover from './Cover'
 
 import './Projects.css'
-
-class Cover extends GSComponent {
-  componentDidMount () {
-    if (this.props.visible) {
-      this.fadeIn()
-    }
-  }
-  componentDidUpdate (prevProps, prevState) {
-    if (this.props.visible) {
-      this.fadeIn()
-    }
-  }
-  fadeOut () {
-    return TweenMax.to(this.$cover, 1, {
-      alpha: 0,
-      height: 0,
-      y: this.props.fullmode ? 500 : 200
-    })
-  }
-  fadeIn () {
-    return TweenMax.fromTo(this.$cover, 1, {
-      y: 0
-    }, {
-      alpha: 1, height: this.props.fullmode ? 500 : 200
-    })
-  }
-  render (props = this.props) {
-    return (
-      <div ref={e => { this.$cover = e }} className='project--cover'>
-        <img alt='cover' className='project--image' src={props.src} />
-      </div>
-    )
-  }
-}
 
 class Project extends GSComponent {
   constructor (props) {

@@ -9,6 +9,9 @@ class Background extends GSComponent {
       background: props.src
     }
   }
+  componentDidMount () {
+    this.show()
+  }
   componentDidUpdate (prevProps, prevState) {
     if (this.props.src !== prevProps.src) {
       this.hide(this.props)
@@ -32,7 +35,10 @@ class Background extends GSComponent {
     })
   }
   render () {
-    return <div ref={e => { this.$background = e }} className='background-container' style={{backgroundImage: `url(${this.state.background})`}} />
+    return <div
+      ref={e => { this.$background = e }}
+      className='background-container'
+      style={{backgroundImage: `url(${this.state.background})`}} />
   }
 }
 
