@@ -59,6 +59,15 @@ class Project extends GSComponent {
     }
   }
   onEnter () {
+    if (this.props.fullmode) {
+      const animations = []
+      if (this.props.showCover) {
+        animations.push(this.$title.fadeIn())
+        animations.push(this.$chapo.fadeIn())
+        animations.push(this.cover.fadeIn())
+      }
+      return this.timeline.add(animations)
+    }
     const animations = [
       this.$title.fadeIn(),
       this.$chapo.fadeIn()
@@ -69,6 +78,16 @@ class Project extends GSComponent {
     return this.timeline.add(animations)
   }
   onExit () {
+    if (this.props.fullmode) {
+      if (this.props.showCover) {
+        return this.timeline.add([
+          this.$title.fadeOut(),
+          this.$chapo.fadeOut(),
+          this.cover.fadeOut()
+        ])
+      }
+      return this.timeline.add(this.cover.fadeOut())
+    }
     return this.timeline.add([
       this.$title.fadeOut(),
       this.$chapo.fadeOut(),
@@ -113,25 +132,23 @@ class Projects extends GSComponent {
     this.selected = 2
     this.state = {
       animate: false,
-      fullmode: false
+      fullmode: true
     }
   }
   offFull () {
-    this.setState({fullmode: false})
+    if (this.state.fullmode && !this.project.timeline.isActive()) {
+      this.setState({fullmode: false})
+    }
   }
   onFull () {
-    this.setState({fullmode: true})
+    if (!this.state.fullmode && !this.project.timeline.isActive()) {
+      this.setState({fullmode: true})
+    }
   }
   onClick () {
-    if (this.state.animate) {
-      return
+    if (!this.project.timeline.isActive()) {
+      return this.props.next()
     }
-    this.setState({animate: true}, this.props.next)
-    setTimeout(() => {
-      this.setState({
-        animate: false
-      })
-    }, 1100)
   }
   render (props = this.props) {
     return (
@@ -142,9 +159,13 @@ class Projects extends GSComponent {
         {this.props.projects.length &&
           <Background
             src={this.props.projects[this.selected].data.cover.url} />}
-        <div className='project__container'>
+        <div className='project__container' onMouseMove={this.onFull.bind(this)}>
           {props.projects.map((project, index) =>
-            <Project
+            <Project ref={ref => {
+              if (this.selected === index) {
+                this.project = ref
+              }
+            }}
               fullmode={this.state.fullmode}
               key={index} data={project.data}
               id={project.id}

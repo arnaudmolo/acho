@@ -12,15 +12,21 @@ const scale = scaleLinear().range([-22.5, 22.5]).domain([0, 90])
 
 class Circle extends GSComponent {
   skew (e) {
-    this.timeline.to(
+    TweenMax.to(
       this.group, 1, {
         x: scale(e.pageX - this.rect.x),
         y: scale(e.pageY - this.rect.y)
       }, 0
-    ).play()
+    )
   }
   leave (e) {
-    this.timeline.reverse()
+    this.timeline.timeScale(2).reverse()
+    TweenMax.to(
+      this.group, 1, {
+        x: 0,
+        y: 0
+      }, 0
+    )
   }
   enter () {
     const animations = [
@@ -37,7 +43,7 @@ class Circle extends GSComponent {
         }
       })
     ]
-    this.timeline.add(animations)
+    this.timeline.add(animations).play().timeScale(1)
   }
   render (props = this.props) {
     const cx = 50
