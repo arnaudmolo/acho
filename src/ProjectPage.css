@@ -1,0 +1,75 @@
+body {
+  margin: 0;
+}
+.page--container .box {
+  width: 100vw;
+  height: 100vh;
+  display: inline-block;
+  position: relative;
+  color: white;
+}
+
+.page--container {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  transform: rotate(270deg) translateX(-100%);
+  transform-origin: top left;
+  position:absolute;
+  width: 100vh;
+  height: 100vw;
+}
+
+.page {
+  transform: rotate(90deg) translateY(-100vh);
+  transform-origin: top left;
+}
+
+.box--content {
+  position:absolute;
+  top: 0;
+  left: 0;
+}
+
+.page--text-container {
+  position: absolute;
+  top: 340px;
+  left: 160px;
+  text-align: left;
+}
+
+.page--title {
+  font-size: 6.2rem;
+  font-family: "Roboto Condensed";
+  font-weight: 600;
+  text-transform: uppercase;
+  text-indent: -0.65em;
+  margin-left: 50px;
+  max-width: 450px;
+  line-height: 83px;
+}
+
+.page--services {
+  border-left: 3px solid white;
+  padding-left: 10px;
+  margin-left: 43px;
+  margin-top: 25px;
+  font-size: 0.7rem;
+}
+
+.page--service {
+  margin-top: 6px;
+  font-size: 0.9rem;
+  line-height: 0.8;
+}
+
+.page--services-title {
+  font-family: "Roboto Condensed";
+  font-weight: lighter;
+  text-transform: uppercase;
+}
+
+.page--project {
+  font-family: "Roboto Condensed";
+  font-weight: lighter;
+  text-transform: uppercase;
+}

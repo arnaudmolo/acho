@@ -60,7 +60,7 @@ class Intro extends Component {
           <p ref={p => { this.texts = p }} className='intro-text'>{intro.map(word => <span key={word}>{word} </span>)}</p>
         </div>
         <Loader onLoad={e => {
-            props.history.push('/loader')
+            props.history.push('/projects')
           }} />
       </div>
     )

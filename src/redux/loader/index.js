@@ -1,4 +1,5 @@
 import { connect } from 'react-redux'
+import { loaded } from './actions'
 
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -6,4 +7,4 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-export default connect(mapStateToProps)
+export default connect(mapStateToProps, { loaded })

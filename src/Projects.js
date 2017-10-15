@@ -44,6 +44,7 @@ class Loader extends GSComponent {
     this.timeline.to(
       this.$progress, 3, {
         width: 235,
+        onComplete: this.props.onLoad,
         onUpdate: () => {
           const round = parseInt(this.timeline.progress() * 3)
           if (this.state.progress !== round) {
@@ -73,7 +74,7 @@ class LoaderAnimation extends GSComponent {
     return (
       <Transition in={props.in} timeout={1000} mountOnEnter>
         {state =>
-          state !== 'exited' && <Loader animationState={state} />
+          state !== 'exited' && <Loader animationState={state} {...props} />
         }
       </Transition>
     )
@@ -104,6 +105,9 @@ class Projects extends GSComponent {
       return this.props.next()
     }
   }
+  onProjectLoad () {
+    this.props.history.push('/project/' + this.props.projects[this.selected].uid)
+  }
   render (props = this.props) {
     return (
       <div className='projects' onClick={this.onClick.bind(this)}>
@@ -126,7 +130,7 @@ class Projects extends GSComponent {
               showCover={this.selected === index} />
           )}
         </div>
-        <LoaderAnimation in={this.state.fullmode} />
+        <LoaderAnimation in={this.state.fullmode} onLoad={this.onProjectLoad.bind(this)} />
       </div>
     )
   }

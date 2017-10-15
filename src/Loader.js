@@ -93,11 +93,12 @@ class Loader extends GSComponent {
   }
 
   onAnimationEnd () {
-    this.props.history.push('/projects')
+    // this.props.history.push('/projects')
+    this.props.loaded()
   }
 
   render (props = this.props) {
-    const ratio = this.props.loader.imagesLoaded.length / 6
+    const ratio = this.props.loader.imagesLoaded.length / 5
     return (
       <div className='center-parent'>
         <div className='loader-text__container'>

@@ -37,3 +37,11 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 export default connect(mapStateToProps, { next, goTo })
+
+export const oneProject = connect((state, ownProps) => {
+  return {
+    project: state.projects.projects.find(
+      project => project.uid === ownProps.match.params.uid
+    )
+  }
+})

@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import Redux from './redux'
+import connectToLoader from './redux/loader'
+import ProjectPage from './ProjectPage'
 
 import {
   BrowserRouter as Router,
@@ -10,7 +12,7 @@ import 'reset-css'
 import './App.css'
 
 import Intro from './Intro'
-import Loader from './Loader'
+// import Loader from './Loader'
 import Projects from './Projects'
 
 class App extends Component {
@@ -19,7 +21,7 @@ class App extends Component {
       <Router>
         <div className='App'>
           <Route exact path='/' component={Intro} />
-          <Route exact path='/loader' component={Loader} />
+          <Route path='/project/:uid' component={ProjectPage} />
           <Route exact path='/projects' component={Projects} />
         </div>
       </Router>
@@ -27,4 +29,4 @@ class App extends Component {
   }
 }
 
-export default Redux(App)
+export default Redux(connectToLoader(App))

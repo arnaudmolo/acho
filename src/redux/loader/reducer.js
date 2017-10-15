@@ -1,15 +1,23 @@
-import { LOAD_IMAGE } from './actions'
+import { LOAD_IMAGE, LOADED } from './actions'
 
 const loadElements = (state = {
-  imagesLoaded: []
+  imagesLoaded: [],
+  loader: true
 }, action) => {
-  if (LOAD_IMAGE === action.type) {
-    return {
-      ...state,
-      imagesLoaded: [...state.imagesLoaded, action.url]
-    }
+  switch (action.type) {
+    case LOADED:
+      return {
+        ...state,
+        loader: false
+      }
+    case LOAD_IMAGE:
+      return {
+        ...state,
+        imagesLoaded: [...state.imagesLoaded, action.url]
+      }
+    default:
+      return state
   }
-  return state
 }
 
 export default loadElements
