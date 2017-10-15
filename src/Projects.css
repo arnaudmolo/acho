@@ -7,24 +7,6 @@ html {
   user-select: none;
 }
 
-.project {
-  position: relative;
-  margin: 0 auto;
-  z-index: 2;
-  transition: all 1s ease;
-  height: 200px;
-}
-
-.project__small {
-  width: 605px;
-}
-
-.project__full {
-  width: 900px;
-  max-width: calc(90vw - 100px);
-  height: 500px;
-}
-
 .projects-project {
   opacity: 0.5;
   position: absolute;
@@ -65,36 +47,29 @@ html {
   display: flex;
 }
 
-.project--title {
-  font-size: 3em;
-  font-family: "Roboto Condensed";
-  text-transform: uppercase;
-  font-weight: 900;
-}
-
-.project--title__full {
-  font-size: 5em;
-}
-
-.project--titraille {
-  position: absolute;
-  width: 100%;
-  height: 100%;
+.project-loader {
+  width: 235px;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.3);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-flow: column;
-  z-index: 2;
 }
 
-.project--titraille__full {
-  align-items: left;
-  max-width: 450px;
-  text-align: left;
-}
-
-.project__services {
+.project-loader__container {
+  position: fixed;
+  bottom: 100px;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-flow: column;
+  opacity: 0;
+}
+
+.project-loader__progress {
+  width: 0px;
+  background: white;
+  height: 2px;
 }

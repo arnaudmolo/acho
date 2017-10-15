@@ -3,6 +3,7 @@ import cx from 'classnames'
 import Cover from './Cover'
 import SlideInOut from './SlideInOut'
 import GSComponent from './GSComponent'
+import './Project.css'
 
 class Project extends GSComponent {
   constructor (props) {
