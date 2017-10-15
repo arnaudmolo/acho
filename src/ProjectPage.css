@@ -25,17 +25,18 @@ body {
 }
 
 .box--content {
-  position:absolute;
-  top: 0;
-  left: 0;
+  display: flex;
+  align-items: center;
+  flex-flow: row;
 }
 
 .page--text-container {
-  position: absolute;
-  top: 340px;
-  left: 225px;
+  width: 450px;
   text-align: left;
   z-index: 1;
+  position: relative;
+  left: 225px;
+  top: 35px;
 }
 
 .page--title {
@@ -49,21 +50,34 @@ body {
   line-height: 83px;
 }
 
-.page--services {
+.cartouche--container {
   border-left: 3px solid white;
   padding-left: 10px;
+  font-size: 0.7rem;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.cartouche__services {
   margin-left: 43px;
   margin-top: 25px;
-  font-size: 0.7rem;
 }
 
-.page--service {
+.cartouche__team {
+  margin-top: 50px;
+}
+
+.cartouche--text {
   margin-top: 6px;
   font-size: 0.9rem;
-  line-height: 0.8;
+  line-height: 1.3;
 }
 
-.page--services-title {
+.cartouche--text__break {
+  display: block;
+}
+
+.cartouche--title {
   font-family: "Roboto Condensed";
   font-weight: lighter;
   text-transform: uppercase;
@@ -94,5 +108,38 @@ body {
 
 .page--cover-container {
   position: relative;
-  left: 460px;
+  left: 55px;
+}
+
+.page--info-container {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-flow: row;
+  align-self: flex-start;
+  position: relative;
+  top: 315px;
+  left: 215px;
+  padding-right: 500px;
+}
+
+.page--description-container {
+  width: 537px;
+  text-align: left;
+  padding-left: 50px;
+}
+
+.page--info__columns {
+  margin-right: 100px;
+}
+
+.page--description-title {
+  font-size: 2.5rem;
+  text-indent: -2rem;
+}
+
+.page--description-paragraph {
+  font-family: "Roboto Condensed";
+  margin-top: 25px;
+  line-height: 1.5;
 }
