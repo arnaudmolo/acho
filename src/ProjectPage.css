@@ -33,8 +33,9 @@ body {
 .page--text-container {
   position: absolute;
   top: 340px;
-  left: 160px;
+  left: 225px;
   text-align: left;
+  z-index: 1;
 }
 
 .page--title {
@@ -72,4 +73,26 @@ body {
   font-family: "Roboto Condensed";
   font-weight: lighter;
   text-transform: uppercase;
+}
+
+.page--cta {
+  height: 55px;
+  width: 60px;
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-flow: column;
+  position: relative;
+  top: 37px;
+  left: 43px;
+}
+
+.page--arrow {
+  width: 12px;
+}
+
+.page--cover-container {
+  position: relative;
+  left: 460px;
 }
