@@ -5,6 +5,7 @@ import SlideInOut from './SlideInOut'
 import GSComponent from './GSComponent'
 import { TimelineMax } from 'gsap'
 import './Project.css'
+import Loader from './ProjectLoader'
 
 class Project extends GSComponent {
   constructor (props) {
@@ -16,8 +17,7 @@ class Project extends GSComponent {
   }
   componentDidUpdate (prevProps, prevState) {
     if (this.props.id !== prevProps.id) {
-      this.onExit().addCallback(() => {
-        console.log('addCa')
+      this.timeline = this.onExit().addCallback(() => {
         this.setState({
           model: this.props.data,
           id: this.props.id
@@ -25,7 +25,7 @@ class Project extends GSComponent {
       })
     }
     if (this.state.id !== prevState.id) {
-      this.onEnter()
+      this.timeline = this.onEnter()
     }
   }
   onEnter () {
@@ -37,7 +37,7 @@ class Project extends GSComponent {
         animations.push(this.$chapo.fadeIn())
         animations.push(this.$cover.fadeIn())
       }
-      return this.timeline.add(animations)
+      return timeline.add(animations)
     }
     const animations = [
       this.$title.fadeIn(),
@@ -46,19 +46,19 @@ class Project extends GSComponent {
     if (this.state.showCover) {
       animations.push(this.$cover.fadeIn())
     }
-    return this.timeline.add(animations)
+    return timeline.add(animations)
   }
   onExit () {
     const timeline = new TimelineMax()
     if (this.props.fullmode) {
       if (this.props.showCover) {
-        return this.timeline.add([
+        return timeline.add([
           this.$title.fadeOut(),
           this.$chapo.fadeOut(),
           this.$cover.fadeOut()
         ])
       }
-      return this.timeline.add(this.$cover.fadeOut())
+      return timeline.add(this.$cover.fadeOut())
     }
     return timeline.add([
       this.$title.fadeOut(),
@@ -88,11 +88,13 @@ class Project extends GSComponent {
             </SlideInOut>
           </div>
           <Cover
+            mountOnEnter={props.mountOnEnter}
             ref={e => { this.$cover = e }}
             src={this.state.model.cover.url}
             visible={this.props.showCover}
             fullmode={props.fullmode} />
         </div>
+        <Loader in={props.loader} onLoad={props.onLoad} />
       </div>
     )
   }

@@ -54,14 +54,13 @@ class ProjectPage extends GSComponent {
     this.handleScroll = this.handleScroll.bind(this)
     this.$galleryItems = []
     this.state = {
-      shownext: false
+      showNext: false
     }
   }
   componentDidMount () {
     this.$container.addEventListener('scroll', this.handleScroll)
 
     this.timeline.pause()
-      .add(this.$nextCover.onExit())
       .add(this.smallCover())
       .add(this.showText(), '-=2.5')
     this.$galleryItems.forEach((e, i) => this.timeline.add(this.hideGallery(i)).pause())
@@ -70,6 +69,12 @@ class ProjectPage extends GSComponent {
   handleScroll (e) {
     const scroll = e.target.scrollTop
     const end = this.$nextCover.$container.offsetLeft
+    const coverIsIn = inViewport(this.$nextCover.$container)
+    if (coverIsIn !== this.state.showNext) {
+      this.setState({
+        showNext: coverIsIn
+      })
+    }
     this.timeline.progress(scroll / end)
   }
   hideGallery (index) {
@@ -94,11 +99,16 @@ class ProjectPage extends GSComponent {
       }
     )
   }
+  handleLoad () {
+    this.$container.scrollTo(0, 0)
+    this.props.history.push('/project/' + this.props.nextProject.uid)
+  }
   render (props = this.props) {
     if (!props.project) {
       return null
     }
     const project = toSimpleProject(props.project)
+    // console.log('project:', project)
     return (
       <div className='page--container' ref={e => { this.$container = e }}>
         <div className='page' ref={e => { this.$page = e }}>
@@ -137,9 +147,11 @@ class ProjectPage extends GSComponent {
               </div>
               <div className='page--next'>
                 <Project
-                  id='lol'
+                  id={props.nextProject.id}
                   fullmode
                   showCover
+                  loader={this.state.showNext}
+                  onLoad={this.handleLoad.bind(this)}
                   className='page--project'
                   ref={e => { this.$nextCover = e }}
                   data={props.nextProject.data} />

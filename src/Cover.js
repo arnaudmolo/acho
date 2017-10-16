@@ -5,32 +5,32 @@ import './Cover.css'
 
 class Cover extends GSComponent {
   componentDidMount () {
-    if (this.props.visible) {
+    if (this.props.visible && this.props.mountOnEnter) {
       this.fadeIn()
     }
   }
   componentDidUpdate (prevProps, prevState) {
     if (this.props.visible) {
-      this.fadeIn()
+      const srcChanged = this.props.src !== prevProps.src
+      const fullmodeChanged = this.props.fullmode !== prevProps.fullmode
+      if (!prevProps.visible || srcChanged || fullmodeChanged) {
+        this.fadeIn()
+      }
     }
-    // if (this.props.visible && !prevProps.visible) {
-    //   return this.fadeIn()
-    // } else if (!this.props.visible && prevProps.visible) {
-    //   return this.fadeOut()
-    // }
   }
   fadeOut (down = true) {
     return TweenMax.to(this.$cover, 1, {
       alpha: 0,
       height: 0,
-      y: (this.props.fullmode ? 500 : 200) * (down ? 1 : -1)
+      y: 200
     })
   }
   fadeIn () {
     return TweenMax.fromTo(this.$cover, 1, {
       y: 0
     }, {
-      alpha: 1, height: this.props.fullmode ? 500 : 200
+      alpha: 1,
+      height: this.props.fullmode ? 500 : 200
     })
   }
   render (props = this.props) {
