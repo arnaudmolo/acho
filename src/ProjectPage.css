@@ -116,11 +116,11 @@ body {
   align-items: flex-start;
   justify-content: center;
   flex-flow: row;
-  align-self: flex-start;
   position: relative;
-  top: 315px;
   left: 215px;
   padding-right: 500px;
+  opacity: 0;
+  transform: scale(0.4);
 }
 
 .page--description-container {
@@ -142,4 +142,15 @@ body {
   font-family: "Roboto Condensed";
   margin-top: 25px;
   line-height: 1.5;
+}
+
+.page--gallery {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-flow: row;
+}
+
+.page--gallery-item {
+  transform: scale(1.4);
 }

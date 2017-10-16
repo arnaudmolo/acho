@@ -5,24 +5,36 @@ import './ProjectPage.css'
 import { oneProject } from './redux/projects'
 import arrow from './arrow-right.svg'
 
+const isNotEmpty = array => array.length >= 1
+const cleanApi = (key, at, check) => array => {
+  if (check(array[0][key])) {
+    return array.map(sub => sub[key][0][at])
+  }
+  return []
+}
+const cleanGallery = obj => obj.map(e => e.image_gallery.url)
+
 const toSimpleProject = project => ({
   title: project.data.title[0].text,
+  description_title: project.data.description_title[0].text,
   cover: project.data.cover.url,
-  year: project.data.year,
-  services: project.data.services[0].service.length >= 1 ? project.data.services.map(({service}) =>
-    service[0].text
-  ) : []
+  year: new Date(project.data.year).getFullYear(),
+  services: cleanApi('service', 'text', isNotEmpty)(project.data.services),
+  delivrables: cleanApi('delivrable', 'text', isNotEmpty)(project.data.delivrables),
+  team: cleanApi('team_member', 'text', isNotEmpty)(project.data.team_members),
+  description: project.data.description.map(e => e.text),
+  gallery: cleanGallery(project.data.gallery)
 })
 
 const Cartouche = props =>
-  <div className={cx('cartouche--container', props.className)}>
+  props.data.length >= 1 ? <div className={cx('cartouche--container', props.className)}>
     <h6 className='cartouche--title'>{props.title}</h6>
     <p className='cartouche--text'>{
       props.data.map((item, index) =>
         <span className={cx({'cartouche--text__break': props.break})} key={item}>{item}{index !== props.data.length - 1 && ', '}</span>
       )}
     </p>
-  </div>
+  </div> : null
 
 const CTA = props =>
   <div className='page--cta'>
@@ -32,18 +44,51 @@ const CTA = props =>
 class ProjectPage extends React.Component {
   constructor (props) {
     super(props)
-    this.handleResize = this.handleResize.bind(this)
+    this.handleScroll = this.handleScroll.bind(this)
+    this.cover = true
+    this.text = true
+    this.gallery = true
+    this.$galleryItems = []
   }
   componentDidMount () {
-    this.$container.addEventListener('scroll', this.handleResize)
+    this.$container.addEventListener('scroll', this.handleScroll)
   }
-  handleResize (e) {
+  handleScroll (e) {
     const scroll = e.target.scrollTop
-    if (scroll > 60) {
+    console.log(scroll)
+    if (scroll > 60 && this.cover) {
       this.smallCover()
     }
+    if (scroll > 950 && this.text) {
+      this.showText()
+    }
+    if (scroll > 1650 && this.gallery) {
+      this.hideGallery(1)
+    }
+    if (scroll > 2600) {
+      this.hideGallery(2)
+    }
+  }
+  hideGallery (index) {
+    this.gallery = false
+    console.log(this.$galleryItems[index])
+    return TweenMax.to(
+      this.$galleryItems[index - 1], 3, {
+        scale: 1
+      }
+    )
+  }
+  showText () {
+    this.text = false
+    return TweenMax.to(
+      this.$info, 3, {
+        scale: 1,
+        alpha: 1
+      }
+    )
   }
   smallCover () {
+    this.cover = false
     return TweenMax.to(
       this.$cover, 3, {
         scale: 0.8
@@ -63,25 +108,33 @@ class ProjectPage extends React.Component {
               <div className='page--text-container'>
                 <p className='page--project'>Project</p>
                 <h2 className='page--title'>{project.title}</h2>
-                {project.services.length >= 1 && <Cartouche className='cartouche__services' title='services' data={project.services} />}
+                <Cartouche className='cartouche__services' title='services' data={project.services} />
                 <CTA />
               </div>
               <div className='page--cover-container'>
                 <img ref={e => { this.$cover = e }} alt='cover' src={project.cover} />
               </div>
-              <div className='page--info-container'>
+              <div className='page--info-container' ref={e => { this.$info = e }}>
                 <div className='page--info__columns'>
-                  <Cartouche className='cartouche__year' break title='year' data={[2016]} />
+                  <Cartouche className='cartouche__year' break title='year' data={[project.year]} />
                 </div>
                 <div className='page--info__columns'>
-                  <Cartouche break className='cartouche__delivrables' title='delivrables' data={['UX', 'Visual studio', 'Creative direction']} />
-                  <Cartouche break className='cartouche__team' title='team' data={['Hugo Teilleit', 'Sebastien Lambla']} />
+                  <Cartouche break className='cartouche__delivrables' title='delivrables' data={project.delivrables} />
+                  <Cartouche break className='cartouche__team' title='team' data={project.team} />
                 </div>
                 <div className='page--description-container'>
-                  <h3 className='page--description-title'>Lorem ipsum dolor sit amet, consectetur lorem</h3>
-                  <p className='page--description-paragraph'>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                  <p className='page--description-paragraph'>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus.</p>
+                  <h3 className='page--description-title'>{project.description_title}</h3>
+                  {project.description.map(e =>
+                    <p className='page--description-paragraph' key={e}>{e}</p>
+                  )}
                 </div>
+              </div>
+              <div className='page--gallery'>
+                {project.gallery.map((image, index) =>
+                  <div ref={e => { this.$galleryItems[index] = e }} key={image} className='page--gallery-item'>
+                    <img alt='cover' src={image} />
+                  </div>
+                )}
               </div>
             </div>
           </div>
