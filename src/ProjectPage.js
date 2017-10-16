@@ -4,14 +4,12 @@ import cx from 'classnames'
 import './ProjectPage.css'
 import { oneProject } from './redux/projects'
 import arrow from './arrow-right.svg'
+import inViewport from 'in-viewport'
 
 const isNotEmpty = array => array.length >= 1
-const cleanApi = (key, at, check) => array => {
-  if (check(array[0][key])) {
-    return array.map(sub => sub[key][0][at])
-  }
-  return []
-}
+const cleanApi = (key, at, check) => array =>
+  check(array[0][key]) ? array.map(sub => sub[key][0][at]) : []
+
 const cleanGallery = obj => obj.map(e => e.image_gallery.url)
 
 const toSimpleProject = project => ({
@@ -55,25 +53,18 @@ class ProjectPage extends React.Component {
   }
   handleScroll (e) {
     const scroll = e.target.scrollTop
-    console.log(scroll)
     if (scroll > 60 && this.cover) {
       this.smallCover()
     }
-    if (scroll > 950 && this.text) {
+    if (inViewport(this.$info) && this.text) {
       this.showText()
     }
-    if (scroll > 1650 && this.gallery) {
-      this.hideGallery(1)
-    }
-    if (scroll > 2600) {
-      this.hideGallery(2)
-    }
+    this.$galleryItems.forEach((e, i) => inViewport(e) && this.hideGallery(i))
   }
   hideGallery (index) {
     this.gallery = false
-    console.log(this.$galleryItems[index])
     return TweenMax.to(
-      this.$galleryItems[index - 1], 3, {
+      this.$galleryItems[index], 3, {
         scale: 1
       }
     )
