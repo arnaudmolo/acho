@@ -3,17 +3,25 @@ import cx from 'classnames'
 import Cover from './Cover'
 import SlideInOut from './SlideInOut'
 import GSComponent from './GSComponent'
+import { TimelineMax } from 'gsap'
 import './Project.css'
 
 class Project extends GSComponent {
   constructor (props) {
     super(props)
-    this.state = props
+    this.state = {
+      model: props.data,
+      id: props.id
+    }
   }
   componentDidUpdate (prevProps, prevState) {
     if (this.props.id !== prevProps.id) {
       this.onExit().addCallback(() => {
-        this.setState(this.props)
+        console.log('addCa')
+        this.setState({
+          model: this.props.data,
+          id: this.props.id
+        })
       })
     }
     if (this.state.id !== prevState.id) {
@@ -21,12 +29,13 @@ class Project extends GSComponent {
     }
   }
   onEnter () {
+    const timeline = new TimelineMax()
     if (this.props.fullmode) {
       const animations = []
       if (this.props.showCover) {
         animations.push(this.$title.fadeIn())
         animations.push(this.$chapo.fadeIn())
-        animations.push(this.cover.fadeIn())
+        animations.push(this.$cover.fadeIn())
       }
       return this.timeline.add(animations)
     }
@@ -35,35 +44,36 @@ class Project extends GSComponent {
       this.$chapo.fadeIn()
     ]
     if (this.state.showCover) {
-      animations.push(this.cover.fadeIn())
+      animations.push(this.$cover.fadeIn())
     }
     return this.timeline.add(animations)
   }
   onExit () {
+    const timeline = new TimelineMax()
     if (this.props.fullmode) {
       if (this.props.showCover) {
         return this.timeline.add([
           this.$title.fadeOut(),
           this.$chapo.fadeOut(),
-          this.cover.fadeOut()
+          this.$cover.fadeOut()
         ])
       }
-      return this.timeline.add(this.cover.fadeOut())
+      return this.timeline.add(this.$cover.fadeOut())
     }
-    return this.timeline.add([
+    return timeline.add([
       this.$title.fadeOut(),
       this.$chapo.fadeOut(),
-      this.cover.fadeOut()
+      this.$cover.fadeOut()
     ])
   }
   render (props = this.props) {
-    const title = this.state.data.title[0].text
+    const title = this.state.model.title[0].text
     let textVisible = true
     if (props.fullmode) {
       textVisible = props.showCover
     }
     return (
-      <div className='projects-project'>
+      <div className={cx('projects-project', props.className)} ref={e => { this.$container = e }}>
         <div ref={e => { this.$project = e }} className={cx({
           project: true,
           project__small: !props.fullmode,
@@ -78,8 +88,8 @@ class Project extends GSComponent {
             </SlideInOut>
           </div>
           <Cover
-            ref={e => { this.cover = e }}
-            src={this.state.data.cover.url}
+            ref={e => { this.$cover = e }}
+            src={this.state.model.cover.url}
             visible={this.props.showCover}
             fullmode={props.fullmode} />
         </div>

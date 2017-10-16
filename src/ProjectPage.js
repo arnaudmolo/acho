@@ -1,20 +1,29 @@
 import React from 'react'
 import { TweenMax } from 'gsap'
 import cx from 'classnames'
+import inViewport from 'in-viewport'
 import './ProjectPage.css'
 import { oneProject } from './redux/projects'
 import arrow from './arrow-right.svg'
-import inViewport from 'in-viewport'
+import Project from './Project'
+import GSComponent from './GSComponent'
 
 const isNotEmpty = array => array.length >= 1
-const cleanApi = (key, at, check) => array =>
-  check(array[0][key]) ? array.map(sub => sub[key][0][at]) : []
+const cleanApi = (key, at, check) => array => {
+  try {
+    return check(array[0][key]) ? array.map(sub => sub[key][0][at]) : []
+  } catch (e) {
+    return []
+  }
+}
 
 const cleanGallery = obj => obj.map(e => e.image_gallery.url)
 
+const error = 'A mettre dans le backend'
+
 const toSimpleProject = project => ({
   title: project.data.title[0].text,
-  description_title: project.data.description_title[0].text,
+  description_title: project.data.description_title[0] ? project.data.description_title[0].text : error,
   cover: project.data.cover.url,
   year: new Date(project.data.year).getFullYear(),
   services: cleanApi('service', 'text', isNotEmpty)(project.data.services),
@@ -39,47 +48,46 @@ const CTA = props =>
     <img className='page--arrow' alt='arrow' src={arrow} />
   </div>
 
-class ProjectPage extends React.Component {
+class ProjectPage extends GSComponent {
   constructor (props) {
     super(props)
     this.handleScroll = this.handleScroll.bind(this)
-    this.cover = true
-    this.text = true
-    this.gallery = true
     this.$galleryItems = []
+    this.state = {
+      shownext: false
+    }
   }
   componentDidMount () {
     this.$container.addEventListener('scroll', this.handleScroll)
+
+    this.timeline.pause()
+      .add(this.$nextCover.onExit())
+      .add(this.smallCover())
+      .add(this.showText(), '-=2.5')
+    this.$galleryItems.forEach((e, i) => this.timeline.add(this.hideGallery(i)).pause())
+    this.timeline.add(this.$nextCover.onEnter()).pause()
   }
   handleScroll (e) {
     const scroll = e.target.scrollTop
-    if (scroll > 60 && this.cover) {
-      this.smallCover()
-    }
-    if (inViewport(this.$info) && this.text) {
-      this.showText()
-    }
-    this.$galleryItems.forEach((e, i) => inViewport(e) && this.hideGallery(i))
+    const end = this.$nextCover.$container.offsetLeft
+    this.timeline.progress(scroll / end)
   }
   hideGallery (index) {
-    this.gallery = false
     return TweenMax.to(
-      this.$galleryItems[index], 3, {
+      this.$galleryItems[index], 1, {
         scale: 1
       }
     )
   }
   showText () {
-    this.text = false
     return TweenMax.to(
-      this.$info, 3, {
+      this.$info, 1.5, {
         scale: 1,
         alpha: 1
       }
     )
   }
   smallCover () {
-    this.cover = false
     return TweenMax.to(
       this.$cover, 3, {
         scale: 0.8
@@ -126,6 +134,15 @@ class ProjectPage extends React.Component {
                     <img alt='cover' src={image} />
                   </div>
                 )}
+              </div>
+              <div className='page--next'>
+                <Project
+                  id='lol'
+                  fullmode
+                  showCover
+                  className='page--project'
+                  ref={e => { this.$nextCover = e }}
+                  data={props.nextProject.data} />
               </div>
             </div>
           </div>

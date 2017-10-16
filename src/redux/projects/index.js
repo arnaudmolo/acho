@@ -39,9 +39,17 @@ const mapStateToProps = (state, ownProps) => {
 export default connect(mapStateToProps, { next, goTo })
 
 export const oneProject = connect((state, ownProps) => {
+  const project = state.projects.projects.find(
+    project => project.uid === ownProps.match.params.uid
+  )
+  const nextIndex = blockAtCreator(
+    state.projects.projects.length
+  )(
+    state.projects.projects.indexOf(project) + 1
+  )
+  const nextProject = state.projects.projects[nextIndex]
   return {
-    project: state.projects.projects.find(
-      project => project.uid === ownProps.match.params.uid
-    )
+    project,
+    nextProject
   }
 })

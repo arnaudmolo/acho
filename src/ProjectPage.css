@@ -154,3 +154,14 @@ body {
 .page--gallery-item {
   transform: scale(1.4);
 }
+
+.projects-project.page--project:nth-child(1) {
+  transform: scale(1);
+  /*opacity: 1;*/
+}
+.projects-project.page--project {
+  position: relative;
+}
+/*.project__full {
+  overflow: hidden;
+}*/

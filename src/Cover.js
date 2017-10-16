@@ -13,6 +13,11 @@ class Cover extends GSComponent {
     if (this.props.visible) {
       this.fadeIn()
     }
+    // if (this.props.visible && !prevProps.visible) {
+    //   return this.fadeIn()
+    // } else if (!this.props.visible && prevProps.visible) {
+    //   return this.fadeOut()
+    // }
   }
   fadeOut (down = true) {
     return TweenMax.to(this.$cover, 1, {

@@ -42,9 +42,9 @@ class Loader extends GSComponent {
   }
   componentDidMount () {
     this.timeline.to(
-      this.$progress, 3, {
+      this.$progress, 4, {
         width: 235,
-        onComplete: this.props.onLoad,
+        // onComplete: this.props.onLoad,
         onUpdate: () => {
           const round = parseInt(this.timeline.progress() * 3)
           if (this.state.progress !== round) {
@@ -86,7 +86,6 @@ class Projects extends GSComponent {
     super(props)
     this.selected = 2
     this.state = {
-      animate: false,
       fullmode: true
     }
   }
