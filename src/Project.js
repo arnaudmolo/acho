@@ -73,17 +73,17 @@ class Project extends GSComponent {
       textVisible = props.showCover
     }
     return (
-      <div className={cx('projects-project', props.className)} ref={e => { this.$container = e }}>
+      <div className={cx('projects-project', props.className, this.props.xtra && 'xtra')} ref={e => { this.$container = e }}>
         <div ref={e => { this.$project = e }} className={cx({
           project: true,
           project__small: !props.fullmode,
           project__full: props.fullmode && props.showCover
         })}>
           <div className='project--titraille'>
-            <SlideInOut ref={e => { this.$chapo = e }} visible={textVisible}>
+            <SlideInOut ref={e => { this.$chapo = e }} mountOnEnter={props.mountOnEnter} visible={textVisible}>
               <p className='project__chapo'>project</p>
             </SlideInOut>
-            <SlideInOut ref={e => { this.$title = e }} visible={textVisible}>
+            <SlideInOut ref={e => { this.$title = e }} mountOnEnter={props.mountOnEnter} visible={textVisible}>
               <h1 className='project--title'>{title}</h1>
             </SlideInOut>
           </div>

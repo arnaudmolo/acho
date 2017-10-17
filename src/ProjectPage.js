@@ -61,7 +61,7 @@ class ProjectPage extends GSComponent {
     this.$container.addEventListener('scroll', this.handleScroll)
 
     this.timeline.pause()
-      .add(this.smallCover())
+      // .add(this.smallCover())
       .add(this.showText(), '-=2.5')
     this.$galleryItems.forEach((e, i) => this.timeline.add(this.hideGallery(i)).pause())
     this.timeline.add(this.$nextCover.onEnter()).pause()
@@ -114,15 +114,13 @@ class ProjectPage extends GSComponent {
         <div className='page' ref={e => { this.$page = e }}>
           <div className='box'>
             <div className='box--content'>
-              <div className='page--text-container'>
-                <p className='page--project'>Project</p>
-                <h2 className='page--title'>{project.title}</h2>
-                <Cartouche className='cartouche__services' title='services' data={project.services} />
-                <CTA />
-              </div>
-              <div className='page--cover-container'>
-                <img ref={e => { this.$cover = e }} alt='cover' src={project.cover} />
-              </div>
+              <Project
+                id={props.nextProject.id}
+                fullmode
+                xtra
+                showCover
+                className='page--project'
+                data={props.project.data} />
               <div className='page--info-container' ref={e => { this.$info = e }}>
                 <div className='page--info__columns'>
                   <Cartouche className='cartouche__year' break title='year' data={[project.year]} />

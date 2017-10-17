@@ -23,8 +23,9 @@ class SlideInOut extends React.Component {
     }
   }
   fadeIn () {
+    const duration = this.props.mountOnEnter ? 0.66 : 0
     return TweenMax
-      .fromTo(this.$el, 0.66, {
+      .fromTo(this.$el, duration, {
         yPercent: -100,
         alpha: 0
       }, {

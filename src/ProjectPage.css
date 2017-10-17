@@ -157,7 +157,7 @@ body {
 
 .projects-project.page--project:nth-child(1) {
   transform: scale(1);
-  /*opacity: 1;*/
+  opacity: 1;
 }
 .projects-project.page--project {
   position: relative;

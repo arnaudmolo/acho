@@ -2,7 +2,7 @@ import { REQUEST, SUCCESS, NEXT, GO_TO } from './actions'
 
 export default (state = {
   projects: [],
-  selected: 2
+  selected: 3
 }, action) => {
   switch (action.type) {
     case SUCCESS:

@@ -19,7 +19,6 @@ html {
   justify-content: center;
   flex-flow: column;
   display: none;
-  transition: transform 1s ease;
 }
 
 .projects-project:nth-child(1) {

@@ -20,17 +20,14 @@ class Cover extends GSComponent {
   }
   fadeOut (down = true) {
     return TweenMax.to(this.$cover, 1, {
-      alpha: 0,
-      height: 0,
-      y: 200
+      alpha: 0
     })
   }
   fadeIn () {
     return TweenMax.fromTo(this.$cover, 1, {
       y: 0
     }, {
-      alpha: 1,
-      height: this.props.fullmode ? 500 : 200
+      alpha: 1
     })
   }
   render (props = this.props) {
