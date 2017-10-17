@@ -68,11 +68,40 @@ class Circle extends GSComponent {
   }
 }
 
-class Navigation extends React.Component {
+class Navigation extends GSComponent {
+  componentDidUpdate (prevProps, prevState) {
+    if (this.props.reset) {
+      TweenMax.to(this.$loader, 1, {
+        css: {
+          height: '0%'
+        }
+      })
+    }
+  }
+  componentDidMount () {
+    this.timeline.fromTo(
+      this.$loader, 1, {
+        css: {
+          height: '0%'
+        }
+      }, {
+        css: {
+          height: '100%'
+        }
+      }
+    ).pause()
+  }
+  progress (t) {
+    this.timeline.progress(t)
+  }
   render (props = this.props) {
     const totalHeight = 500
     return (
       <nav className='navigation-container' onMouseOver={props.onMouseOver} onMouseLeave={props.onMouseLeave}>
+        <div className='navigation--title'><p>achaufaille</p></div>
+        <div className='navigation--bar'>
+          <div className='navigation--loader' ref={e => { this.$loader = e }} />
+        </div>
         <svg height={totalHeight + circleRadius * 4} width='100'>
           <g transform={translate(0, circleRadius * 3)}>
             {props.projects.map((project, index) => {

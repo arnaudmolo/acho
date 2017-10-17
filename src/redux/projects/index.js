@@ -59,7 +59,7 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-export default connect(mapStateToProps, { next, goTo })
+export default connect(mapStateToProps, { next, goTo }, null, { withRef: true })
 
 export const oneProject = connect((state, ownProps) => {
   const project = state.projects.projects.find(

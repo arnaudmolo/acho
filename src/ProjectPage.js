@@ -4,6 +4,7 @@ import inViewport from 'in-viewport'
 import './ProjectPage.css'
 import { oneProject, toSimpleProject } from './redux/projects'
 // import arrow from './arrow-right.svg'
+import Navigation from './Navigation'
 import Project from './Project'
 import GSComponent from './GSComponent'
 import Cartouche from './Cartouche'
@@ -41,7 +42,9 @@ class ProjectPage extends GSComponent {
         showNext: coverIsIn
       })
     }
-    this.timeline.progress(scroll / end)
+    const progress = scroll / end
+    this.navigation.wrappedInstance.progress(progress)
+    this.timeline.progress(progress)
   }
   hideGallery (index) {
     return TweenMax.to(
@@ -76,57 +79,55 @@ class ProjectPage extends GSComponent {
     }, 1000)
   }
   render (props = this.props) {
-    if (!props.project) {
-      return null
-    }
     const project = toSimpleProject(props.project)
-    console.log(this.state.xtra)
-    // console.log('project:', project)
     return (
-      <div className='page--container' ref={e => { this.$container = e }}>
-        <div className='page' ref={e => { this.$page = e }}>
-          <div className='box'>
-            <div className='box--content'>
-              <Project
-                id={props.nextProject.id}
-                fullmode
-                xtra
-                showCover
-                className='page--project'
-                data={props.project.data} />
-              <div className='page--info-container' ref={e => { this.$info = e }}>
-                <div className='page--info__columns'>
-                  <Cartouche className='cartouche__year' break title='year' data={[project.year]} />
-                </div>
-                <div className='page--info__columns'>
-                  <Cartouche break className='cartouche__delivrables' title='delivrables' data={project.delivrables} />
-                  <Cartouche break className='cartouche__team' title='team' data={project.team} />
-                </div>
-                <div className='page--description-container'>
-                  <h3 className='page--description-title'>{project.description_title}</h3>
-                  {project.description.map(e =>
-                    <p className='page--description-paragraph' key={e}>{e}</p>
-                  )}
-                </div>
-              </div>
-              <div className='page--gallery'>
-                {project.gallery.map((image, index) =>
-                  <div ref={e => { this.$galleryItems[index] = e }} key={image} className='page--gallery-item'>
-                    <img alt='cover' src={image} />
-                  </div>
-                )}
-              </div>
-              <div className='page--next'>
+      <div>
+        <Navigation ref={e => { this.navigation = e }} reset={this.state.xtra} />
+        <div className='page--container' ref={e => { this.$container = e }}>
+          <div className='page' ref={e => { this.$page = e }}>
+            <div className='box'>
+              <div className='box--content'>
                 <Project
                   id={props.nextProject.id}
                   fullmode
+                  xtra
                   showCover
-                  xtra={this.state.xtra}
-                  loader={this.state.showNext}
-                  onLoad={this.handleLoad.bind(this)}
                   className='page--project'
-                  ref={e => { this.$nextCover = e }}
-                  data={props.nextProject.data} />
+                  data={props.project.data} />
+                <div className='page--info-container' ref={e => { this.$info = e }}>
+                  <div className='page--info__columns'>
+                    <Cartouche className='cartouche__year' break title='year' data={[project.year]} />
+                  </div>
+                  <div className='page--info__columns'>
+                    <Cartouche break className='cartouche__delivrables' title='delivrables' data={project.delivrables} />
+                    <Cartouche break className='cartouche__team' title='team' data={project.team} />
+                  </div>
+                  <div className='page--description-container'>
+                    <h3 className='page--description-title'>{project.description_title}</h3>
+                    {project.description.map(e =>
+                      <p className='page--description-paragraph' key={e}>{e}</p>
+                    )}
+                  </div>
+                </div>
+                <div className='page--gallery'>
+                  {project.gallery.map((image, index) =>
+                    <div ref={e => { this.$galleryItems[index] = e }} key={image} className='page--gallery-item'>
+                      <img alt='cover' src={image} />
+                    </div>
+                  )}
+                </div>
+                <div className='page--next'>
+                  <Project
+                    id={props.nextProject.id}
+                    fullmode
+                    showCover
+                    xtra={this.state.xtra}
+                    loader={this.state.showNext}
+                    onLoad={this.handleLoad.bind(this)}
+                    className='page--project'
+                    ref={e => { this.$nextCover = e }}
+                    data={props.nextProject.data} />
+                </div>
               </div>
             </div>
           </div>
