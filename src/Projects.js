@@ -15,7 +15,7 @@ class Projects extends GSComponent {
       fullmode: true,
       xtra: false
     }
-    // window.addEventListener('keydown', e => this.onClick())
+    window.addEventListener('keydown', e => this.onClick())
   }
   offFull () {
     if (this.state.fullmode && !this.project.timeline.isActive()) {

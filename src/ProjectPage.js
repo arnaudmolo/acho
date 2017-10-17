@@ -1,52 +1,17 @@
 import React from 'react'
 import { TweenMax } from 'gsap'
-import cx from 'classnames'
 import inViewport from 'in-viewport'
 import './ProjectPage.css'
-import { oneProject } from './redux/projects'
-import arrow from './arrow-right.svg'
+import { oneProject, toSimpleProject } from './redux/projects'
+// import arrow from './arrow-right.svg'
 import Project from './Project'
 import GSComponent from './GSComponent'
+import Cartouche from './Cartouche'
 
-const isNotEmpty = array => array.length >= 1
-const cleanApi = (key, at, check) => array => {
-  try {
-    return check(array[0][key]) ? array.map(sub => sub[key][0][at]) : []
-  } catch (e) {
-    return []
-  }
-}
-
-const cleanGallery = obj => obj.map(e => e.image_gallery.url)
-
-const error = 'A mettre dans le backend'
-
-const toSimpleProject = project => ({
-  title: project.data.title[0].text,
-  description_title: project.data.description_title[0] ? project.data.description_title[0].text : error,
-  cover: project.data.cover.url,
-  year: new Date(project.data.year).getFullYear(),
-  services: cleanApi('service', 'text', isNotEmpty)(project.data.services),
-  delivrables: cleanApi('delivrable', 'text', isNotEmpty)(project.data.delivrables),
-  team: cleanApi('team_member', 'text', isNotEmpty)(project.data.team_members),
-  description: project.data.description.map(e => e.text),
-  gallery: cleanGallery(project.data.gallery)
-})
-
-const Cartouche = props =>
-  props.data.length >= 1 ? <div className={cx('cartouche--container', props.className)}>
-    <h6 className='cartouche--title'>{props.title}</h6>
-    <p className='cartouche--text'>{
-      props.data.map((item, index) =>
-        <span className={cx({'cartouche--text__break': props.break})} key={item}>{item}{index !== props.data.length - 1 && ', '}</span>
-      )}
-    </p>
-  </div> : null
-
-const CTA = props =>
-  <div className='page--cta'>
-    <img className='page--arrow' alt='arrow' src={arrow} />
-  </div>
+// const CTA = props =>
+//   <div className='page--cta'>
+//     <img className='page--arrow' alt='arrow' src={arrow} />
+//   </div>
 
 class ProjectPage extends GSComponent {
   constructor (props) {

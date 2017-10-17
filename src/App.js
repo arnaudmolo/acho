@@ -12,7 +12,7 @@ import 'reset-css'
 import './App.css'
 
 import Intro from './Intro'
-import Loader from './Loader'
+// import Loader from './Loader'
 import Projects from './Projects'
 
 class App extends Component {
@@ -21,12 +21,8 @@ class App extends Component {
       <Router>
         <div className='App'>
           <Route exact path='/' component={Intro} />
-          {props.loader.loader ? <Loader {...props} />
-          : <div>
-            <Route path='/project/:uid' component={ProjectPage} />
-            <Route exact path='/projects' component={Projects} />
-          </div>
-          }
+          <Route path='/project/:uid' component={ProjectPage} />
+          <Route exact path='/projects' component={Projects} />
         </div>
       </Router>
     )

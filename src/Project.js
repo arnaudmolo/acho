@@ -5,6 +5,8 @@ import SlideInOut from './SlideInOut'
 import GSComponent from './GSComponent'
 import { TimelineMax } from 'gsap'
 import './Project.css'
+import { toSimpleProject } from './redux/projects'
+import Cartouche from './Cartouche'
 import Loader from './ProjectLoader'
 
 class Project extends GSComponent {
@@ -42,12 +44,14 @@ class Project extends GSComponent {
       if (this.props.showCover) {
         animations.push(this.$title.fadeIn())
         animations.push(this.$chapo.fadeIn())
+        animations.push(this.$cartouche.fadeIn())
         animations.push(this.$cover.fadeIn())
       }
       return timeline.add(animations)
     }
     const animations = [
       this.$title.fadeIn(),
+      this.$cartouche.fadeIn(),
       this.$chapo.fadeIn()
     ]
     if (this.state.showCover) {
@@ -62,6 +66,7 @@ class Project extends GSComponent {
         return timeline.add([
           this.$title.fadeOut(),
           this.$chapo.fadeOut(),
+          this.$cartouche.fadeOut(),
           this.$cover.fadeOut()
         ])
       }
@@ -70,11 +75,13 @@ class Project extends GSComponent {
     return timeline.add([
       this.$title.fadeOut(),
       this.$chapo.fadeOut(),
+      this.$cartouche.fadeOut(),
       this.$cover.fadeOut()
     ])
   }
   render (props = this.props) {
     const title = this.state.model.title[0].text
+    const project = toSimpleProject({data: this.state.model})
     let textVisible = true
     if (props.fullmode) {
       textVisible = props.showCover
@@ -92,6 +99,9 @@ class Project extends GSComponent {
             </SlideInOut>
             <SlideInOut ref={e => { this.$title = e }} mountOnEnter={props.mountOnEnter} visible={textVisible}>
               <h1 className='project--title'>{title}</h1>
+            </SlideInOut>
+            <SlideInOut ref={e => { this.$cartouche = e }} mountOnEnter={props.mountOnEnter} visible={textVisible}>
+              <Cartouche className='services__delivrables' title='services' data={project.services} />
             </SlideInOut>
           </div>
           <Cover

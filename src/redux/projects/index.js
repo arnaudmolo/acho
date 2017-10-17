@@ -2,6 +2,29 @@ import { connect } from 'react-redux'
 import { next, goTo } from './actions'
 import { createSelector } from 'reselect'
 
+const isNotEmpty = array => array.length >= 1
+const cleanApi = (key, at, check) => array => {
+  try {
+    return check(array[0][key]) ? array.map(sub => sub[key][0][at]) : []
+  } catch (e) {
+    return []
+  }
+}
+const cleanGallery = obj => obj.map(e => e.image_gallery.url)
+const error = 'A mettre dans le backend'
+
+export const toSimpleProject = project => ({
+  title: project.data.title[0].text,
+  description_title: project.data.description_title[0] ? project.data.description_title[0].text : error,
+  cover: project.data.cover.url,
+  year: new Date(project.data.year).getFullYear(),
+  services: cleanApi('service', 'text', isNotEmpty)(project.data.services),
+  delivrables: cleanApi('delivrable', 'text', isNotEmpty)(project.data.delivrables),
+  team: cleanApi('team_member', 'text', isNotEmpty)(project.data.team_members),
+  description: project.data.description.map(e => e.text),
+  gallery: cleanGallery(project.data.gallery)
+})
+
 const blockAtCreator = n => {
   return x => {
     if (x > n - 1) {
