@@ -24,6 +24,9 @@
 .page--project.xtra .project__full {
   overflow: visible;
 }
+.page--next .page--project.xtra .project__full {
+  overflow: hidden;
+}
 .xtra .project__full {
   width: 100%;
   height: 100%;

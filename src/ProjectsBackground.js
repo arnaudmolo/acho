@@ -10,14 +10,20 @@ class Background extends GSComponent {
     }
   }
   componentDidMount () {
-    this.show()
+    if (this.props.in) {
+      this.show()
+    }
   }
   componentDidUpdate (prevProps, prevState) {
-    if (this.props.src !== prevProps.src) {
+    if (this.props.in) {
+      if (this.props.src !== prevProps.src) {
+        this.hide(this.props)
+      }
+      if (this.state.background !== prevState.background) {
+        this.show(this.props)
+      }
+    } else {
       this.hide(this.props)
-    }
-    if (this.state.background !== prevState.background) {
-      this.show(this.props)
     }
   }
   hide (props) {

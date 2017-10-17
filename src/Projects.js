@@ -48,7 +48,7 @@ class Projects extends GSComponent {
           onMouseOver={this.offFull.bind(this)}
           onMouseLeave={this.onFull.bind(this)} />
         {this.props.projects.length &&
-          <Background
+          <Background in={!this.state.xtra}
             src={this.props.projects[this.selected].data.cover.url} />}
         <div className='project__container' onMouseMove={this.onFull.bind(this)}>
           {props.projects.map((project, index) =>

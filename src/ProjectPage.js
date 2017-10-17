@@ -54,7 +54,8 @@ class ProjectPage extends GSComponent {
     this.handleScroll = this.handleScroll.bind(this)
     this.$galleryItems = []
     this.state = {
-      showNext: false
+      showNext: false,
+      xtra: false
     }
   }
   componentDidMount () {
@@ -100,14 +101,21 @@ class ProjectPage extends GSComponent {
     )
   }
   handleLoad () {
-    this.$container.scrollTo(0, 0)
-    this.props.history.push('/project/' + this.props.nextProject.uid)
+    this.setState({xtra: true})
+    setTimeout(() => {
+      this.$container.scrollTo(0, 0)
+      this.props.history.push('/project/' + this.props.nextProject.uid)
+      this.setState({
+        xtra: false
+      })
+    }, 1000)
   }
   render (props = this.props) {
     if (!props.project) {
       return null
     }
     const project = toSimpleProject(props.project)
+    console.log(this.state.xtra)
     // console.log('project:', project)
     return (
       <div className='page--container' ref={e => { this.$container = e }}>
@@ -148,6 +156,7 @@ class ProjectPage extends GSComponent {
                   id={props.nextProject.id}
                   fullmode
                   showCover
+                  xtra={this.state.xtra}
                   loader={this.state.showNext}
                   onLoad={this.handleLoad.bind(this)}
                   className='page--project'

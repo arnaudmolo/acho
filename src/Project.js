@@ -16,16 +16,23 @@ class Project extends GSComponent {
     }
   }
   componentDidUpdate (prevProps, prevState) {
-    if (this.props.id !== prevProps.id) {
-      this.timeline = this.onExit().addCallback(() => {
-        this.setState({
-          model: this.props.data,
-          id: this.props.id
+    if (this.props.mountOnEnter) {
+      if (this.props.id !== prevProps.id) {
+        this.timeline = this.onExit().addCallback(() => {
+          this.setState({
+            model: this.props.data,
+            id: this.props.id
+          })
         })
+      }
+      if (this.state.id !== prevState.id) {
+        this.timeline = this.onEnter()
+      }
+    } else if (this.props.id !== this.state.id) {
+      this.setState({
+        model: this.props.data,
+        id: this.props.id
       })
-    }
-    if (this.state.id !== prevState.id) {
-      this.timeline = this.onEnter()
     }
   }
   onEnter () {
