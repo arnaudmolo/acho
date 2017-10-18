@@ -101,7 +101,7 @@ class Project extends GSComponent {
               <h1 className='project--title'>{title}</h1>
             </SlideInOut>
             <SlideInOut ref={e => { this.$cartouche = e }} mountOnEnter={props.mountOnEnter} visible={textVisible}>
-              <Cartouche className='services__delivrables' title='services' data={project.services} />
+              <Cartouche xtra={props.xtra} className='services__delivrables' title='services' data={project.services} />
             </SlideInOut>
           </div>
           <Cover

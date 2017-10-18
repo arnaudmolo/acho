@@ -1,6 +1,7 @@
 import React from 'react'
 import { scaleLinear } from 'd3'
 import connectToProjects from './redux/projects'
+import { onlyActions as connectToCursor } from './redux/cursor'
 import './Navigation.css'
 import GSComponent from './GSComponent'
 import { TweenMax } from 'gsap'
@@ -102,7 +103,12 @@ class Navigation extends GSComponent {
         <div className='navigation--bar'>
           <div className='navigation--loader' ref={e => { this.$loader = e }} />
         </div>
-        <svg height={totalHeight + circleRadius * 4} width='100'>
+        {props.circles && <svg
+          className='navigation--scene'
+          height={totalHeight + circleRadius * 4}
+          width='100'
+          onMouseEnter={props.hideCursor}
+          onMouseLeave={props.showCursor}>
           <g transform={translate(0, circleRadius * 3)}>
             {props.projects.map((project, index) => {
               return (
@@ -110,10 +116,10 @@ class Navigation extends GSComponent {
               )
             })}
           </g>
-        </svg>
+        </svg>}
       </nav>
     )
   }
 }
 
-export default connectToProjects(Navigation)
+export default connectToProjects(connectToCursor(Navigation))

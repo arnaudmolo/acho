@@ -43,7 +43,7 @@ class ProjectPage extends GSComponent {
       })
     }
     const progress = scroll / end
-    this.navigation.wrappedInstance.progress(progress)
+    this.navigation.wrappedInstance.wrappedInstance.progress(progress)
     this.timeline.progress(progress)
   }
   hideGallery (index) {
@@ -96,11 +96,11 @@ class ProjectPage extends GSComponent {
                   data={props.project.data} />
                 <div className='page--info-container' ref={e => { this.$info = e }}>
                   <div className='page--info__columns'>
-                    <Cartouche className='cartouche__year' break title='year' data={[project.year]} />
+                    <Cartouche className='cartouche__year' xtra break title='year' data={[project.year]} />
                   </div>
                   <div className='page--info__columns'>
-                    <Cartouche break className='cartouche__delivrables' title='delivrables' data={project.delivrables} />
-                    <Cartouche break className='cartouche__team' title='team' data={project.team} />
+                    <Cartouche break className='cartouche__delivrables' xtra title='delivrables' data={project.delivrables} />
+                    <Cartouche break className='cartouche__team' xtra title='team' data={project.team} />
                   </div>
                   <div className='page--description-container'>
                     <h3 className='page--description-title'>{project.description_title}</h3>

@@ -4,6 +4,7 @@ import { createStore, applyMiddleware, combineReducers } from 'redux'
 import createSagaMiddleware from 'redux-saga'
 import projectsReducer from './projects/reducer'
 import loaderReducer from './loader/reducer'
+import cursorReducer from './cursor/reducer'
 
 import mySaga from './sagas'
 
@@ -13,7 +14,8 @@ const sagaMiddleware = createSagaMiddleware()
 
 const reducers = combineReducers({
   projects: projectsReducer,
-  loader: loaderReducer
+  loader: loaderReducer,
+  cursor: cursorReducer
 })
 
 let store = createStore(

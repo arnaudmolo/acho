@@ -3,7 +3,7 @@ import cx from 'classnames'
 import './Cartouche.css'
 
 const Cartouche = props =>
-  props.data.length >= 1 ? <div className={cx('cartouche--container', props.className)}>
+  props.data.length >= 1 ? <div className={cx('cartouche--container', props.className, props.xtra && 'cartouche__xtra')}>
     <h6 className='cartouche--title'>{props.title}</h6>
     <p className='cartouche--text'>{
       props.data.map((item, index) =>

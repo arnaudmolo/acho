@@ -14,17 +14,21 @@ import './App.css'
 import Intro from './Intro'
 // import Loader from './Loader'
 import Projects from './Projects'
+import Cursor from './Cursor'
 
 class App extends Component {
   render (props = this.props) {
     return (
-      <Router>
-        <div className='App'>
-          <Route exact path='/' component={Intro} />
-          <Route path='/project/:uid' component={ProjectPage} />
-          <Route exact path='/projects' component={Projects} />
-        </div>
-      </Router>
+      <div>
+        <Cursor />
+        <Router>
+          <div className='App'>
+            <Route exact path='/' component={Intro} />
+            <Route path='/project/:uid' component={ProjectPage} />
+            <Route exact path='/projects' component={Projects} />
+          </div>
+        </Router>
+      </div>
     )
   }
 }

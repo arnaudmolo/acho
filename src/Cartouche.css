@@ -1,6 +1,5 @@
-.xtra .cartouche--container {
+.cartouche__xtra.cartouche--container {
   border-left: 3px solid white;
-  /*text-align: left;*/
   max-width: 50px;
   padding-left: 10px;
 }

@@ -15,7 +15,6 @@ class Projects extends GSComponent {
       fullmode: true,
       xtra: false
     }
-    window.addEventListener('keydown', e => this.onClick())
   }
   offFull () {
     if (this.state.fullmode && !this.project.timeline.isActive()) {
@@ -45,6 +44,7 @@ class Projects extends GSComponent {
     return (
       <div className={`projects`} onClick={this.onClick.bind(this)}>
         <Navigation
+          circles
           onMouseOver={this.offFull.bind(this)}
           onMouseLeave={this.onFull.bind(this)} />
         {this.props.projects.length &&

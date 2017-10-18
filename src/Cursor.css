@@ -1,0 +1,14 @@
+.cursor--container {
+  pointer-events: none;
+  position: absolute;
+  transition: opacity 0.5s ease;
+  z-index: 100;
+}
+
+.cursor--container__hidden {
+  opacity: 0;
+}
+
+body {
+  cursor: none;
+}
