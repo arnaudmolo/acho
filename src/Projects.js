@@ -30,19 +30,16 @@ class Projects extends GSComponent {
     this.setState({
       xtra: !this.state.xtra
     })
-    // if (!this.project.timeline.isActive()) {
-    //   return this.props.next()
-    // }
   }
   onProjectLoad (project) {
-    this.setState({
-      xtra: true
-    })
-    setTimeout(() => this.props.history.push('/project/' + this.props.projects[this.selected].uid), 1000)
+    // this.setState({
+    //   xtra: true
+    // })
+    // setTimeout(() => this.props.history.push('/project/' + this.props.projects[this.selected].uid), 1000)
   }
   render (props = this.props) {
     return (
-      <div className={`projects`} onClick={this.onClick.bind(this)}>
+      <div className={`projects`}>
         <Navigation
           circles
           onMouseOver={this.offFull.bind(this)}
