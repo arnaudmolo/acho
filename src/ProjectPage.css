@@ -1,33 +1,12 @@
 body {
   margin: 0;
 }
-.page--container .box {
-  width: 100vw;
-  height: 100vh;
-  display: inline-block;
-  position: relative;
-  color: white;
-}
 
 .page--container {
-  overflow-y: scroll;
-  overflow-x: hidden;
-  transform: rotate(270deg) translateX(-100%);
-  transform-origin: top left;
-  position:absolute;
-  width: 100vh;
-  height: 100vw;
-}
 
-.page {
-  transform: rotate(90deg) translateY(-100vh);
-  transform-origin: top left;
 }
 
 .box--content {
-  display: flex;
-  align-items: center;
-  flex-flow: row;
 }
 
 .page--text-container {
@@ -123,6 +102,3 @@ body {
 .projects-project.page--project {
   position: relative;
 }
-/*.project__full {
-  overflow: hidden;
-}*/

@@ -85,50 +85,46 @@ class ProjectPage extends GSComponent {
         <Navigation ref={e => { this.navigation = e }} reset={this.state.xtra} />
         <div className='page--container' ref={e => { this.$container = e }}>
           <div className='page' ref={e => { this.$page = e }}>
-            <div className='box'>
-              <div className='box--content'>
-                <Project
-                  id={props.nextProject.id}
-                  fullmode
-                  xtra
-                  showCover
-                  className='page--project'
-                  data={props.project.data} />
-                <div className='page--info-container' ref={e => { this.$info = e }}>
-                  <div className='page--info__columns'>
-                    <Cartouche className='cartouche__year' xtra break title='year' data={[project.year]} />
-                  </div>
-                  <div className='page--info__columns'>
-                    <Cartouche break className='cartouche__delivrables' xtra title='delivrables' data={project.delivrables} />
-                    <Cartouche break className='cartouche__team' xtra title='team' data={project.team} />
-                  </div>
-                  <div className='page--description-container'>
-                    <h3 className='page--description-title'>{project.description_title}</h3>
-                    {project.description.map(e =>
-                      <p className='page--description-paragraph' key={e}>{e}</p>
-                    )}
-                  </div>
-                </div>
-                <div className='page--gallery'>
-                  {project.gallery.map((image, index) =>
-                    <div ref={e => { this.$galleryItems[index] = e }} key={image} className='page--gallery-item'>
-                      <img alt='cover' src={image} />
-                    </div>
-                  )}
-                </div>
-                <div className='page--next'>
-                  <Project
-                    id={props.nextProject.id}
-                    fullmode
-                    showCover
-                    xtra={this.state.xtra}
-                    loader={this.state.showNext}
-                    onLoad={this.handleLoad.bind(this)}
-                    className='page--project'
-                    ref={e => { this.$nextCover = e }}
-                    data={props.nextProject.data} />
-                </div>
+            <Project
+              id={props.nextProject.id}
+              fullmode
+              xtra
+              showCover
+              className='page--project'
+              data={props.project.data} />
+            <div className='page--info-container' ref={e => { this.$info = e }}>
+              <div className='page--info__columns'>
+                <Cartouche className='cartouche__year' xtra break title='year' data={[project.year]} />
               </div>
+              <div className='page--info__columns'>
+                <Cartouche break className='cartouche__delivrables' xtra title='delivrables' data={project.delivrables} />
+                <Cartouche break className='cartouche__team' xtra title='team' data={project.team} />
+              </div>
+              <div className='page--description-container'>
+                <h3 className='page--description-title'>{project.description_title}</h3>
+                {project.description.map(e =>
+                  <p className='page--description-paragraph' key={e}>{e}</p>
+                )}
+              </div>
+            </div>
+            <div className='page--gallery'>
+              {project.gallery.map((image, index) =>
+                <div ref={e => { this.$galleryItems[index] = e }} key={image} className='page--gallery-item'>
+                  <img alt='cover' src={image} />
+                </div>
+              )}
+            </div>
+            <div className='page--next'>
+              <Project
+                id={props.nextProject.id}
+                fullmode
+                showCover
+                xtra={this.state.xtra}
+                loader={this.state.showNext}
+                onLoad={this.handleLoad.bind(this)}
+                className='page--project'
+                ref={e => { this.$nextCover = e }}
+                data={props.nextProject.data} />
             </div>
           </div>
         </div>

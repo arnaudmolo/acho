@@ -111,7 +111,7 @@ html {
 .App {
   text-align: center;
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
   background-image: url(/images/background.jpg);
   color: white;
   overflow: hidden;
