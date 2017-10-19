@@ -1,7 +1,7 @@
-import { Component } from 'react'
+import { PureComponent } from 'react'
 import { TimelineMax } from 'gsap'
 
-class TweenComponent extends Component {
+class TweenComponent extends PureComponent {
   timeline = new TimelineMax()
   componentWillUnmount () {
     this.timeline.stop()

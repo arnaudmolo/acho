@@ -32,7 +32,6 @@ class Cursor extends React.Component {
     }
   }
   render (props = this.props) {
-    console.log(props)
     return (
       <div className={cx('cursor--container', !props.cursor && 'cursor--container__hidden')} ref={e => { this.$container = e }}>
         <svg height={40} width={40}>

@@ -34,3 +34,22 @@ class App extends Component {
 }
 
 export default Redux(connectToLoader(App))
+
+// class App extends Component {
+//   render (props = this.props) {
+//     return (
+//       <div>
+//         <Router>
+//           <div className='App'>
+//             <Route exact path='/' component={Intro} />
+//             {props.loader.loader ? <Loader />
+//             : <div>
+//               <Route path='/project/:uid' component={ProjectPage} />
+//               <Route exact path='/projects' component={Projects} />
+//             </div>}
+//           </div>
+//         </Router>
+//       </div>
+//     )
+//   }
+// }

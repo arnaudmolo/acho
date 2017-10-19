@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { next, goTo } from './actions'
+import { next, goTo, prev } from './actions'
 import { createSelector } from 'reselect'
 
 const isNotEmpty = array => array.length >= 1
@@ -55,11 +55,12 @@ const mapStateToProps = (state, ownProps) => {
     return state
   }
   return {
-    projects: moveArrayOrder(state, ownProps)
+    projects: moveArrayOrder(state, ownProps),
+    selected: state.selected
   }
 }
 
-export default connect(mapStateToProps, { next, goTo }, null, { withRef: true })
+export default connect(mapStateToProps, { next, goTo, prev }, null, { withRef: true })
 
 export const oneProject = connect((state, ownProps) => {
   const project = state.projects.projects.find(

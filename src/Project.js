@@ -111,7 +111,7 @@ class Project extends GSComponent {
             visible={this.props.showCover}
             fullmode={props.fullmode} />
         </div>
-        <Loader in={props.loader} onLoad={props.onLoad} />
+        <Loader in={props.loader && this.props.id === this.state.id} onLoad={props.onLoad} />
       </div>
     )
   }

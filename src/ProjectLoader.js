@@ -24,7 +24,7 @@ class Loader extends GSComponent {
         alpha: 1
       }
     )
-    this.timeline.play()
+    this.timeline.timeScale(1).play()
   }
   unload () {
     TweenMax.to(
@@ -32,7 +32,7 @@ class Loader extends GSComponent {
         alpha: 0
       }
     )
-    this.timeline.reverse()
+    this.timeline.timeScale(3).reverse()
   }
   componentDidMount () {
     this.timeline.to(
@@ -40,7 +40,7 @@ class Loader extends GSComponent {
         width: 235,
         onComplete: this.props.onLoad,
         onUpdate: () => {
-          const round = parseInt(this.timeline.progress() * 3)
+          const round = parseInt(this.timeline.progress() * 3, 10)
           if (this.state.progress !== round) {
             this.setState({
               progress: round
@@ -66,7 +66,7 @@ class Loader extends GSComponent {
 class LoaderAnimation extends GSComponent {
   render (props = this.props) {
     return (
-      <Transition in={props.in} timeout={1000} mountOnEnter>
+      <Transition in={props.in} timeout={500} mountOnEnter>
         {state =>
           state !== 'exited' && <Loader animationState={state} {...props} />
         }

@@ -1,4 +1,5 @@
 import React from 'react'
+import WheelIndicator from 'wheel-indicator'
 import GSComponent from './GSComponent'
 import connectToProjects from './redux/projects'
 import Navigation from './Navigation'
@@ -16,13 +17,31 @@ class Projects extends GSComponent {
       xtra: false
     }
   }
+  componentDidMount () {
+    this.indicator = new WheelIndicator({
+      elem: this.$container,
+      callback: e => {
+        if (this.state.fullmode && !this.project.timeline.isActive()) {
+          switch (e.direction) {
+            case 'up':
+              return this.props.prev()
+            case 'down':
+              return this.props.next()
+          }
+        }
+      }
+    })
+  }
+  componentWillUnmount () {
+    this.indicator.destroy()
+  }
   offFull () {
-    if (this.state.fullmode && !this.project.timeline.isActive()) {
+    if (this.state.fullmode) {
       this.setState({fullmode: false})
     }
   }
   onFull () {
-    if (!this.state.fullmode && !this.project.timeline.isActive()) {
+    if (!this.state.fullmode) {
       this.setState({fullmode: true})
     }
   }
@@ -39,9 +58,10 @@ class Projects extends GSComponent {
   }
   render (props = this.props) {
     return (
-      <div className={`projects`}>
+      <div className={`projects`} ref={e => { this.$container = e }} onClick={this.onClick.bind(this)}>
         <Navigation
-          circles
+          circles={!this.state.xtra}
+          fullmode={this.state.fullmode && !this.state.xtra}
           onMouseOver={this.offFull.bind(this)}
           onMouseLeave={this.onFull.bind(this)} />
         {this.props.projects.length &&
