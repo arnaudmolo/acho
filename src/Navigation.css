@@ -44,7 +44,9 @@
   width: 2px;
   background-color: rgba(255, 255, 255, 0.3);
   left: 49px;
-  /*mask: url(#mask);*/
+}
+.navigation-container__full .navigation--bar {
+  height: 100%;
 }
 
 .navigation--loader {

@@ -15,22 +15,6 @@ class Cursor extends React.Component {
       )
     })
   }
-  componentDidUpdate (prevProps, prevState) {
-    if (this.props.cursor && !prevProps.cursor) {
-      TweenMax.to(
-        this.$container, 1, {
-          scale: 1
-        }
-      )
-    }
-    if (!this.props.cursor && prevProps.cursor) {
-      TweenMax.to(
-        this.$container, 1, {
-          scale: 2
-        }
-      )
-    }
-  }
   render (props = this.props) {
     return (
       <div className={cx('cursor--container', !props.cursor && 'cursor--container__hidden')} ref={e => { this.$container = e }}>

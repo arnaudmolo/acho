@@ -65,7 +65,7 @@
 
 .donut__svg__circle--one {
   stroke-dasharray: 221;
-  stroke-dashoffset: 221;
+  /*stroke-dashoffset: 221;*/
 }
 
 .intro-loader__container circle {

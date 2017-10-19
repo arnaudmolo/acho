@@ -46,15 +46,15 @@ class Projects extends GSComponent {
     }
   }
   onClick () {
-    this.setState({
-      xtra: !this.state.xtra
-    })
+    // this.setState({
+    //   xtra: !this.state.xtra
+    // })
   }
   onProjectLoad (project) {
-    // this.setState({
-    //   xtra: true
-    // })
-    // setTimeout(() => this.props.history.push('/project/' + this.props.projects[this.selected].uid), 1000)
+    this.setState({
+      xtra: true
+    })
+    setTimeout(() => this.props.history.push('/project/' + this.props.projects[this.selected].uid), 1000)
   }
   render (props = this.props) {
     return (
