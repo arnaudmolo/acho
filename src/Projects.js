@@ -46,9 +46,9 @@ class Projects extends GSComponent {
     }
   }
   onClick () {
-    // this.setState({
-    //   xtra: !this.state.xtra
-    // })
+    this.setState({
+      xtra: !this.state.xtra
+    })
   }
   onProjectLoad (project) {
     this.setState({

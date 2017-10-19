@@ -2,7 +2,6 @@ import React from 'react'
 import Transition from 'react-transition-group/Transition'
 import { Motion, spring } from 'react-motion'
 import { scaleLinear } from 'd3'
-import cx from 'classnames'
 import connectToProjects from './redux/projects'
 import { onlyActions as connectToCursor } from './redux/cursor'
 import './Navigation.css'
@@ -52,7 +51,7 @@ class Circle extends React.Component {
         dashOffset: 221,
         r2: circleRadius
       }} style={{
-        r: spring((props.selected || props.progress) ? 10 : props.in ? 5 : 0),
+        r: spring(props.in ? props.selected || props.progress ? 10 : 5 : 0),
         x: spring(this.state.x),
         y: spring(this.state.y),
         dashOffset: spring(props.progress ? 80 : 221, {stiffness: 35, damping: 13}),
@@ -107,7 +106,7 @@ class Mask extends React.Component {
         r2: circleRadius
       }} style={{
         r2: spring(props.progress ? circleRadius : 0),
-        r: spring((props.selected || props.progress) ? 10 : props.in ? 5 : 0)
+        r: spring(props.in ? props.selected || props.progress ? 10 : 5 : 0)
       }}>
         {i10 => <g><circle
           cx={cx}
@@ -141,9 +140,7 @@ class Timeline extends React.Component {
   }
   onMouseEnter (index) {
     return (e) => {
-      this.setState({
-        progress: index
-      })
+      this.setState({progress: index})
       this.props.onMouseEnter(e)
     }
   }
@@ -183,6 +180,7 @@ class Timeline extends React.Component {
                 </g>
               </mask>
             </defs>
+            <rect ref={e => { this.$progress = e }} x={49} y={0} height={0} width={2} fill='white' mask='url(#mask)' />
             <rect x={49} y={0} height={600} width={2} fill='white' mask='url(#mask)' fillOpacity='0.3' />
             <g transform={translate(0, circleRadius * 3)}>
               {state !== 'exited' && props.projects.map((project, index) => {
@@ -210,16 +208,32 @@ class Timeline extends React.Component {
 class Navigation extends GSComponent {
   componentDidUpdate (prevProps, prevState) {
     if (this.props.reset) {
-      TweenMax.to(this.$loader, 1, {
-        css: {
-          height: '0%'
-        }
-      })
+      console.log('reset')
     }
   }
   componentDidMount () {
     this.timeline.fromTo(
-      this.$loader, 1, {
+      this.$loader1, 1, {
+        css: {
+          height: '0%'
+        }
+      }, {
+        css: {
+          height: '100%'
+        }
+      }
+    ).fromTo(
+      this.$timeline.$progress, 15, {
+        attr: {
+          height: 0
+        }
+      }, {
+        attr: {
+          height: 600
+        }
+      }
+    ).fromTo(
+      this.$loader2, 1, {
         css: {
           height: '0%'
         }
@@ -234,32 +248,22 @@ class Navigation extends GSComponent {
     this.timeline.progress(t)
   }
   render (props = this.props) {
-    if (props.circles) {
-      return (
-        <nav className={cx('navigation-container', !props.circles && 'navigation-container__full')} onMouseOver={props.onMouseOver} onMouseLeave={props.onMouseLeave}>
-          <div className='navigation--title'><p>achaufaille</p></div>
-          <div className='navigation--bar'>
-            <div className='navigation--loader' ref={e => { this.$loader = e }} />
-          </div>
-          <Timeline in={props.circles}
-            {...props}
-            onMouseEnter={props.hideCursor}
-            onMouseLeave={props.showCursor} />
-          <div className='navigation--bar'>
-            <div className='navigation--loader' />
-          </div>
-        </nav>
-      )
-    } else {
-      return (
-        <nav className={cx('navigation-container', !props.circles && 'navigation-container__full')} onMouseOver={props.onMouseOver} onMouseLeave={props.onMouseLeave}>
-          <div className='navigation--title'><p>achaufaille</p></div>
-          <div className='navigation--bar'>
-            <div className='navigation--loader' ref={e => { this.$loader = e }} />
-          </div>
-        </nav>
-      )
-    }
+    return (
+      <nav className='navigation-container' onMouseOver={props.onMouseOver} onMouseLeave={props.onMouseLeave}>
+        <div className='navigation--title'><p>achaufaille</p></div>
+        <div className='navigation--bar'>
+          <div className='navigation--loader' ref={e => { this.$loader1 = e }} />
+        </div>
+        <Timeline in={props.circles}
+          {...props}
+          ref={e => { this.$timeline = e }}
+          onMouseEnter={props.hideCursor}
+          onMouseLeave={props.showCursor} />
+        <div className='navigation--bar'>
+          <div className='navigation--loader' ref={e => { this.$loader2 = e }} />
+        </div>
+      </nav>
+    )
   }
 }
 

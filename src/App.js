@@ -16,23 +16,6 @@ import Loader from './Loader'
 import Projects from './Projects'
 import Cursor from './Cursor'
 
-// class App extends Component {
-//   render (props = this.props) {
-//     return (
-//       <div>
-//         <Cursor />
-//         <Router>
-//           <div className='App'>
-//             <Route exact path='/' component={Intro} />
-//             <Route path='/project/:uid' component={ProjectPage} />
-//             <Route exact path='/projects' component={Projects} />
-//           </div>
-//         </Router>
-//       </div>
-//     )
-//   }
-// }
-
 class App extends Component {
   render (props = this.props) {
     return (
@@ -41,16 +24,33 @@ class App extends Component {
         <Router>
           <div className='App'>
             <Route exact path='/' component={Intro} />
-            {props.loader.loader ? <Loader />
-            : <div>
-              <Route path='/project/:uid' component={ProjectPage} />
-              <Route exact path='/projects' component={Projects} />
-            </div>}
+            <Route path='/project/:uid' component={ProjectPage} />
+            <Route exact path='/projects' component={Projects} />
           </div>
         </Router>
       </div>
     )
   }
 }
+
+// class App extends Component {
+//   render (props = this.props) {
+//     return (
+//       <div>
+//         <Cursor />
+//         <Router>
+//           <div className='App'>
+//             <Route exact path='/' component={Intro} />
+//             {props.loader.loader ? <Loader />
+//             : <div>
+//               <Route path='/project/:uid' component={ProjectPage} />
+//               <Route exact path='/projects' component={Projects} />
+//             </div>}
+//           </div>
+//         </Router>
+//       </div>
+//     )
+//   }
+// }
 
 export default Redux(connectToLoader(App))
